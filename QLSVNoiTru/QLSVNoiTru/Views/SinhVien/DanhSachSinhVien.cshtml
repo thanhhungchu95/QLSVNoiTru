@@ -1,0 +1,86 @@
+﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
+@{
+    ViewBag.Title = "Danh sách sinh viên";
+    List<SinhVien> sinhViens = (List<SinhVien>)ViewData["sinhViens"];
+}
+<script>
+    $("#SINHVIEN").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <div class="header">
+            <div class="col-md-12">
+                <h4 class="header-title">Danh sách sinh viên</h4>
+                <a href="/SinhVien/DangKyNoiTru" class="btn btn-primary pull-right" style="margin-top: 10px;">Đăng ký nội trú</a>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover datatable">
+                        <thead>
+                            <tr>
+                                <th>Tên khoa</th>
+                                <th>Tên lớp</th>
+                                <th>Mã sinh viên</th>
+                                <th>Tên sinh viên</th>
+                                <th>Số hiệu phòng</th>
+                                <th>Ngày sinh</th>
+                                <th>Giới tính</th>
+                                <th>Ngày nhận phòng</th>
+                                <th class="text-center">Trạng thái ở</th>
+                                <th style="width: 120px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in sinhViens)
+                            {
+                                <tr>
+                                    <td>@item.Lop.Khoa.TenKhoa</td>
+                                    <td>@item.Lop.TenLop</td>
+                                    <td>@item.MaSinhVien</td>
+                                    <td>@item.TenSinhVien</td>
+                                    <td>@item.SoHieuPhong</td>
+                                    <td>@item.NgaySinh.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.GioiTinh</td>
+                                    <td>@item.NgayNhanPhong.Value.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="text-center">@DataHelper.ConvertTrangThaiO(item.TrangThaiO.Value)</td>
+                                    <td class="text-center">
+                                        <a href="/SinhVien/ChiTietSinhVien?masinhvien=@item.MaSinhVien" class="btn btn-primary btn-sm">Chi tiết</a>
+                                        <button onclick="xacnhanxoa('@item.MaSinhVien')" class="btn btn-danger btn-sm">Xóa</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>
+<div class="modal fade" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Cảnh báo</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Bạn có chắc chắn muốn xóa bản ghi này?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                <a id="xoa_banghi" href="" class="btn btn-danger">Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function xacnhanxoa(maSinhVien) {
+        $("#xoa_banghi").attr("href", "/sinhvien/xoa?maSinhVien=" + maSinhVien);
+        $("#modalDelete").modal();
+    }
+</script>

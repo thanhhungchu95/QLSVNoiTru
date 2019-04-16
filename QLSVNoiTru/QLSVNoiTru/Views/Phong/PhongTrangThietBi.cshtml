@@ -1,0 +1,49 @@
+﻿@using QLSVNoiTru.Database;
+@{
+    ViewBag.Title = "Trang thiết bị phòng";
+    List<LoaiPhong> loaiphongs = (List<LoaiPhong>)ViewData["loaiphongs"];
+    List<Phong> phongs = (List<Phong>)ViewData["phongs"];
+}
+<script>
+    $("#PHONG").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <div class="header">
+            <div class="col-md-12">
+                <h4 class="header-title">Trang thiết bị phòng</h4>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover datatable">
+                        <thead>
+                            <tr>
+                                <th>Tên loại phòng</th>
+                                <th>Số hiệu phòng</th>
+                                <th class="text-center">Tầng</th>
+                                <th style="width: 120px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in phongs)
+                            {
+                                <tr>
+                                    <td>@item.LoaiPhong.TenLoaiPhong</td>
+                                    <td>@item.SoHieuPhong</td>
+                                    <td class="text-center">@item.Tang</td>
+                                    <td class="text-center">
+                                        <a href="/Phong/ChiTietTrangThietBiPhong?soHieuPhong=@item.SoHieuPhong" class="btn btn-primary btn-sm">Chi tiết</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>

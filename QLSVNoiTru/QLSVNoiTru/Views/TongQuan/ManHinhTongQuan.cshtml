@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Tổng quan";
+}
+<script>
+    $("#TONGQUAN").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa fa-dashboard"></i> Tổng quan</li>
+        </ol>
+        <div class="header">
+            <div class="col-md-12">
+                <h3 class="header-title">Tổng quan tình hình ký túc xá</h3>
+                <p class="header-info">Tổng quan và thống kê mới nhất</p>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <ul class="col-md-12 stats">
+                                <li class="stat col-xs-4">
+                                    <span><b class="value">20</b></span>
+                                    <em>Sinh viên mới / Tháng 8</em>
+                                </li>
+                                <li class="stat col-xs-4">
+                                    <span><b class="value">2,304</b></span>
+                                    <em>Số lượng sinh viên</em>
+                                </li>
+                                <li class="stat col-xs-4">
+                                    <span><b class="value">20</b></span>
+                                    <em>Tổng số phòng</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-body">
+                            <ul class="col-md-12 stats">
+                                <li class="stat col-xs-4">
+                                    <span><b class="value">150.000.000 đ</b></span>
+                                    <em>Tiền điện / Tháng 8</em>
+                                </li>
+                                <li class="stat col-xs-4">
+                                    <span><b class="value">70.000.000 đ</b></span>
+                                    <em>Tiền nước / Tháng 8</em>
+                                </li>
+                                <li class="stat col-xs-4">
+                                    <span><b class="value">220.000.000 đ</b></span>
+                                    <em>Tổng / Tháng 8</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Phòng tiêu thụ điện nước cao nhất trong tháng</h3>
+                        </div>
+                        <div class="panel-body" style="padding-top: 5px;">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-4">#</th>
+                                        <th class="col-md-4">Phòng</th>
+                                        <th class="col-md-4">Số SV</th>
+                                        <th class="col-md-4">Tiền điện (đ)</th>
+                                        <th class="col-md-4">Tiền nước (đ)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in new List<int>() { 2, 3, 4 })
+                                    {
+                                        <tr>
+                                            <td>@item</td>
+                                            <td>#200@(item)</td>
+                                            <td>@(11 % item)</td>
+                                            <td>176.287</td>
+                                            <td>176.287</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel ">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Tình hình điện nước trong năm (2019) ( x 1000 đ)</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="dashboardRevenues" class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>

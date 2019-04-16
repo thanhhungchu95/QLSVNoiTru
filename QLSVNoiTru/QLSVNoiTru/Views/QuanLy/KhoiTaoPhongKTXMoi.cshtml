@@ -1,0 +1,146 @@
+﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
+@{
+    ViewBag.Title = "Khởi tạo phòng KTX mới";
+    List<ESinhVien> eSinhViens = (List<ESinhVien>)ViewData["eSinhViens"];
+    List<ETang> eTangs = (List<ETang>)ViewData["eTangs"];
+}
+<style>
+    .box-tang {
+        border: 1px solid #dcdcdc;
+        border-bottom: none;
+    }
+
+        .box-tang:last-child {
+            border-bottom: 1px solid #dcdcdc;
+        }
+
+    .box-phong {
+        padding: 10px;
+        border-left: 1px solid #dcdcdc;
+    }
+</style>
+<script src="~/Plugins/ckfinder/ckfinder.js"></script>
+<script>
+    $("#QUANLY").addClass("active");
+</script>
+<style>
+    .img-thietbi {
+        max-width: 60px;
+        border: 1px solid #dcdcdc;
+        padding: 2px;
+    }
+</style>
+<div class="body">
+    <form action="/QuanLy/KhoiTaoPhongKTXMoi" method="post">
+        <section class="content">
+            <div class="header">
+                <div class="col-md-12">
+                    <h4 class="header-title">Khởi tạo phòng KTX mới</h4>
+                </div>
+            </div>
+            <!-- CONTENT -->
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tongquan">Tổng quan phòng KTX</a></li>
+                            <li><a data-toggle="tab" href="#sinhvienolai">Chọn sinh viên ở lại</a></li>
+                        </ul>
+
+                        <div class="tab-content" style="max-height: 500px;overflow-y: auto;overflow-x:hidden">
+                            <div id="tongquan" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @for (int i = 0; i < eTangs.Count; i++)
+                                        {
+                                            <div class="box-tang">
+                                                <div class="row">
+                                                    <div class="col-xs-2">
+                                                        <div style="padding:10px">
+                                                            <b>@eTangs[i].TenTang</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-10">
+                                                        <div class="row" style="margin: 0;">
+                                                            @for (int j = 0; j < eTangs[i].Phongs.Count; j++)
+                                                            {
+                                                                <div class="col-md-2 text-center" style="padding: 0;">
+                                                                    <div class="box-phong">
+                                                                        <h4>
+                                                                            <b>@eTangs[i].Phongs[j].SoHieuPhong</b>
+                                                                        </h4>
+                                                                        <p>@eTangs[i].Phongs[j].LoaiPhong.TenLoaiPhong</p>
+                                                                        <p>@eTangs[i].Phongs[j].SoPhongDaO / @eTangs[i].Phongs[j].SucChuaToiDa</p>
+                                                                        <p>
+                                                                            @if (eTangs[i].Phongs[j].SoPhongDaO < eTangs[i].Phongs[j].SucChuaToiDa)
+                                                                            {
+                                                                                <button type="button" class="btn btn-primary btn-sm">Còn giường trống</button>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <button type="button" class="btn btn-danger btn-sm">Phòng đã đầy</button>
+                                                                            }
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="sinhvienolai" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>Danh sách sinh viên</h4>
+                                        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Chọn</th>
+                                                    <th>Mã sinh viên</th>
+                                                    <th>Tên sinh viên</th>
+                                                    <th>Tên khoa</th>
+                                                    <th>Tên lớp</th>
+                                                    <th>Số hiệu phòng</th>
+                                                    <th>Giới tính</th>
+                                                    <th>Ngày nhận phòng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < eSinhViens.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <input type="hidden" name="eSinhViens[@i].MaSinhVien" value="@eSinhViens[i].SinhVien.MaSinhVien" />
+                                                            <input type="checkbox" @(eSinhViens[i].Chon ? "checked" : "") name="eSinhViens[@i].Chon" value="true" />
+                                                        </td>
+                                                        <td>@eSinhViens[i].SinhVien.MaSinhVien</td>
+                                                        <td>@eSinhViens[i].SinhVien.TenSinhVien</td>
+                                                        <td>@eSinhViens[i].SinhVien.Lop.Khoa.TenKhoa</td>
+                                                        <td>@eSinhViens[i].SinhVien.Lop.TenLop</td>
+                                                        <td>@eSinhViens[i].SinhVien.SoHieuPhong</td>
+                                                        <td>@eSinhViens[i].SinhVien.GioiTinh</td>
+                                                        <td>@eSinhViens[i].SinhVien.NgayNhanPhong.Value.ToString("dd/MM/yyyy HH:mm")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center" style="margin-top:20px">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END: CONTENT -->
+        </section>
+
+    </form>
+</div>

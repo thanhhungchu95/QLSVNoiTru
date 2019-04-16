@@ -1,0 +1,162 @@
+﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
+@{
+    ViewBag.Title = "Thông tin sinh viên";
+    SinhVien sinhvien = (SinhVien)ViewData["sinhvien"];
+    List<Lop> lops = (List<Lop>)ViewData["lops"];
+}
+<script src="~/Plugins/ckfinder/ckfinder.js"></script>
+<script>
+    $("#SINHVIEN").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <div class="header">
+            <div class="col-md-12">
+                <h4 class="header-title">Thông tin sinh viên</h4>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <form action="/SinhVien/CapNhatThongTin" method="post">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label style="display: block;text-align: center;">Hình ảnh</label>
+                                    <img id="img-logo" src="@sinhvien.HinhAnh">
+                                    <input required value="@sinhvien.HinhAnh" id="Logo" style="display: none; width: 0px;" name="HinhAnh" class="upload">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mã lớp <span class="required-field">(*)</span></label>
+                                    <select required name="MaLop" class="form-control">
+                                        <option value="">Chọn...</option>
+                                        @for (int i = 0; i < lops.Count; i++)
+                                        {
+                                            <option @(sinhvien.MaLop == lops[i].MaLop ? "selected" : "") value="@lops[i].MaLop">@lops[i].TenLop</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mã sinh viên <span class="required-field">(*)</span></label>
+                                    <input readonly id="MaSinhVien" value="@sinhvien.MaSinhVien" required type="text" name="MaSinhVien" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Tên sinh viên <span class="required-field">(*)</span></label>
+                                    <input required value="@sinhvien.TenSinhVien" name="TenSinhVien" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày sinh <span class="required-field">(*)</span></label>
+                                    <input required name="NgaySinh" value="@sinhvien.NgaySinh.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Giới tính <span class="required-field">(*)</span></label>
+                                    <select name="GioiTinh" class="form-control">
+                                        <option @(sinhvien.GioiTinh == "Nam" ? "selected" : "") value="Nam">Nam</option>
+                                        <option @(sinhvien.GioiTinh != "Nam" ? "selected" : "") value="Nữ">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Dân tộc <span class="required-field">(*)</span></label>
+                                    <input required value="@sinhvien.DanToc" name="DanToc" type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Hộ khẩu</label>
+                                    <input value="@sinhvien.HoKhau" name="HoKhau" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Số điện thoại</label>
+                                    <input value="@sinhvien.SDT" name="SDT" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Ghi chú</label>
+                                    <textarea name="GhiChu" type="text" class="form-control">@sinhvien.GhiChu</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Trạng thái ở</label>
+                                    <input readonly required value="@DataHelper.ConvertTrangThaiO(sinhvien.TrangThaiO.Value)" name="DanToc" type="text" class="form-control" style="width:250px" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Thành tích</label>
+                                    <textarea class="form-control">@sinhvien.KhenThuong</textarea>
+                                </div>
+                                <hr />
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kỷ luật</label>
+                                    @foreach (var item in sinhvien.SinhVienKyLuats)
+                                    {
+                                        <p><b>- @item.KyLuat.TenKyLuat</b></p>
+                                    }
+                                </div>
+                                <hr />
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Lịch sử chuyển phòng</label>
+                                    @foreach (var item in sinhvien.SinhVienChuyenPhongs)
+                                    {
+                                        <p>
+                                            Từ phòng <b>@item.SoHieuPhongCu</b> sang <b>@item.SoHieuPhongMoi</b> : @item.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")
+                                            <br />
+                                            @item.GhiChu
+                                            <hr />
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-primary" type="submit">Cập nhật thông tin</button>
+                        <a href="/SinhVien/DanhSachSinhVien" class="btn btn-success">Trở lại</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        function setFileField(fileUrl) {
+            $('#' + $(upload).attr('for')).val(fileUrl);
+            $("#img-logo").attr("src", fileUrl);
+        }
+        if (!$('.button-upload').length > 0) {
+            var upload;
+            var textBox = $('.upload');
+            for (var i = 0; i < textBox.length; i++) {
+                var uploadText = $(textBox[i]);
+                uploadText.css('width', uploadText.width() - 70);
+                uploadText.after('<button type="button" for="' + uploadText.attr('id') + '" class="button-upload btn btn-primary">Chọn ảnh</button>');
+                $('.button-upload').click(function () {
+                    upload = $(this);
+                    // You can use the "CKFinder" class to render CKFinder in a page:
+                    var finder = new CKFinder();
+                    finder.basePath = '../files';
+                    finder.selectActionFunction = setFileField;
+                    finder.popup();
+                });
+            }
+        }
+    });
+</script>

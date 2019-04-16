@@ -1,0 +1,176 @@
+﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
+@{
+    ViewBag.Title = "Thông tin phòng";
+    List<LoaiPhong> loaiphongs = (List<LoaiPhong>)ViewData["loaiphongs"];
+    List<Phong> phongs = (List<Phong>)ViewData["phongs"];
+    List<Tang> tangs = (List<Tang>)ViewData["tangs"];
+}
+<script>
+    $("#PHONG").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <div class="header">
+            <div class="col-md-12">
+                <h4 class="header-title">Thông tin phòng</h4>
+                <button onclick="them()" class="btn btn-primary pull-right" style="margin-top: 10px;">Thêm mới</button>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover datatable">
+                        <thead>
+                            <tr>
+                                <th>Tên loại phòng</th>
+                                <th>Số hiệu phòng</th>
+                                <th class="text-center">Tầng</th>
+                                <th class="text-center">Số sinh viên ở</th>
+                                <th class="text-center">Sức chứa tối đa</th>
+                                <th style="width: 200px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in phongs)
+                            {
+                                <tr>
+                                    <td>@item.LoaiPhong.TenLoaiPhong</td>
+                                    <td>@item.SoHieuPhong</td>
+                                    <td class="text-center">@item.Tang.TenTang</td>
+                                    <td class="text-center">@(item.SinhViens.Where(x => x.SoHieuPhong == item.SoHieuPhong && x.TrangThaiO == (int)TrangThaiO.DangO).Count())</td>
+                                    <td class="text-center">@item.SucChuaToiDa</td>
+                                    <td class="text-center">
+                                        <a href="/Phong/DSSinhVienO?soHieuPhong=@item.SoHieuPhong" class="btn btn-primary btn-sm">DS sinh viên ở</a>
+                                        <button onclick="chitiet('@item.SoHieuPhong')" class="btn btn-primary btn-sm">Sửa</button>
+                                        <button onclick="xacnhanxoa('@item.SoHieuPhong')" class="btn btn-danger btn-sm">Xóa</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Thêm phòng mới</h4>
+            </div>
+            <form id="form-submit" action="" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Loại phòng <span class="required-field">(*)</span></label>
+                                <select name="MaLoaiPhong" class="form-control" required>
+                                    <option value="">Chọn...</option>
+                                    @foreach (var item in loaiphongs)
+                                    {
+                                        <option value="@item.MaLoaiPhong">@item.TenLoaiPhong</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Số hiệu phòng <span class="required-field">(*)</span></label>
+                                <input id="SoHieuPhong" required type="text" name="SoHieuPhong" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>Tầng <span class="required-field">(*)</span></label>
+                                <select name="TangId" class="form-control" required>
+                                    <option value="">Chọn...</option>
+                                    @foreach (var item in tangs)
+                                    {
+                                        <option value="@item.TangId">@item.TenTang</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sức chứa tối đa <span class="required-field">(*)</span></label>
+                                <input required name="SucChuaToiDa" type="number" value="6" min="1" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Cảnh báo</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Bạn có chắc chắn muốn xóa bản ghi này?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                <a id="xoa_banghi" href="" class="btn btn-danger">Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var acceptSubmit = false;
+    var isThemMoi = true;
+    var urlCheckMaTonTai = "/phong/kiemtratrung?soHieuPhong=";
+    var urlChiTiet = "/phong/ChiTiet?soHieuPhong=";
+    function them() {
+        acceptSubmit = false;
+        isThemMoi = true;
+        document.getElementsByName("SoHieuPhong")[0].value = "";
+        document.getElementsByName("MaLoaiPhong")[0].value = "";
+        document.getElementsByName("TangId")[0].value = "";
+        $("#SoHieuPhong").removeAttr("readonly");
+        $("#form-submit").attr("action", "/phong/themmoi");
+        $("#myModal").modal();
+    }
+    function xacnhanxoa(soHieuPhong) {
+        $("#xoa_banghi").attr("href", "/phong/xoa?soHieuPhong=" + soHieuPhong);
+        $("#modalDelete").modal();
+    }
+    function chitiet(soHieuPhong) {
+        isThemMoi = false;
+        $.get(urlChiTiet + soHieuPhong, function (data) {
+            document.getElementsByName("MaLoaiPhong")[0].value = data.MaLoaiPhong;
+            document.getElementsByName("SoHieuPhong")[0].value = data.SoHieuPhong;
+            document.getElementsByName("TangId")[0].value = data.TangId;
+            document.getElementsByName("SucChuaToiDa")[0].value = data.SucChuaToiDa;
+            $("#form-submit").attr("action", "/phong/capnhat");
+            $("#SoHieuPhong").attr("readonly", "readonly");
+            $("#myModal").modal();
+        });
+    }
+    $(document).ready(function () {
+        $("#form-submit").on('submit', function (e) {
+            if (isThemMoi) {
+                if (!acceptSubmit) {
+                    e.preventDefault();
+                    let soHieuPhong = document.getElementsByName("SoHieuPhong")[0].value;
+                    $.get(urlCheckMaTonTai + soHieuPhong, function (data) {
+                        if (data.result) {
+                            alert("Số hiệu phòng phòng đã tồn tại");
+                        }
+                        else {
+                            acceptSubmit = true;
+                            $("#form-submit").submit();
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Thông tin ký túc xá";
+}
+<script>
+    $("#QUANLY").addClass("active");
+</script>
+<script src="~/Plugins/ckfinder/ckfinder.js"></script>
+<div class="body">
+    <section class="content">
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa fa-building-o"></i> Ký túc xá</li>
+        </ol>
+        <div class="header">
+            <div class="col-md-12">
+                <h3 class="header-title">Thông tin ký túc xá</h3>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="display: block;text-align: center;">Hình ảnh <span class="required-field">(*)</span></label>
+                        <img id="img-logo" src="/Files/img-default.gif">
+                        <input required id="Logo" style="display: none; width: 0px;" name="Logo" class="upload">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Tên ký túc xá <span class="required-field">(*)</span></label>
+                        <input class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ <span class="required-field">(*)</span></label>
+                        <input class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại <span class="required-field">(*)</span></label>
+                        <input class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span class="required-field">(*)</span></label>
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-primary">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function setFileField(fileUrl) {
+            $('#' + $(upload).attr('for')).val(fileUrl);
+            $("#img-logo").attr("src", fileUrl);
+        }
+        if (!$('.button-upload').length > 0) {
+            var upload;
+            var textBox = $('.upload');
+            for (var i = 0; i < textBox.length; i++) {
+                var uploadText = $(textBox[i]);
+                uploadText.css('width', uploadText.width() - 70);
+                uploadText.after('<button type="button" for="' + uploadText.attr('id') + '" class="button-upload btn btn-primary">Chọn ảnh</button>');
+                $('.button-upload').click(function () {
+                    upload = $(this);
+                    // You can use the "CKFinder" class to render CKFinder in a page:
+                    var finder = new CKFinder();
+                    finder.basePath = '../files';
+                    finder.selectActionFunction = setFileField;
+                    finder.popup();
+                });
+            }
+        }
+    });
+</script>

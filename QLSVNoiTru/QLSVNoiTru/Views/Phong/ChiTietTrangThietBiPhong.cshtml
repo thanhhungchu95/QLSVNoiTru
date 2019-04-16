@@ -1,0 +1,65 @@
+﻿@using QLSVNoiTru.Models;
+@using QLSVNoiTru.Database;
+@{
+    ViewBag.Title = "Chi tiết trang thiết bị phòng";
+    List<EThietBi> ethietBis = (List<EThietBi>)ViewData["ethietBis"];
+    Phong phong = (Phong)ViewData["phong"];
+}
+<script>
+    $("#PHONG").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <div class="header">
+            <div class="col-md-12">
+                <h4 class="header-title">Chi tiết trang thiết bị phòng</h4>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="/Phong/CapNhatTrangThietBiPhong" method="post">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h3 style="margin-top: 0;"><b>Số hiệu phòng: @phong.SoHieuPhong</b></h3>
+                                <h4><b>Loại phòng: @phong.LoaiPhong.TenLoaiPhong</b></h4>
+                                <h4><b>Tầng: @phong.Tang</b></h4>
+                                <input type="hidden" name="soHieuPhong" value="@phong.SoHieuPhong" />
+                            </div>
+                            <div class="col-md-9">
+                                <h4 style="margin-top: 0;"><b>Danh sách thiết bị</b></h4>
+                                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Chọn</th>
+                                            <th>Tên thiết bị</th>
+                                            <th>Giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < ethietBis.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="ethietBis[@i].MaThietBi" value="@ethietBis[i].MaThietBi" />
+                                                    <input type="checkbox" name="ethietBis[@i].Chon" @(ethietBis[i].Chon ? "checked" : "")  value="true"/>
+                                                </td>
+                                                <td>@ethietBis[i].TenThietBi</td>
+                                                <td>@ethietBis[i].Gia</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12 text-center" style="margin-top:50px">
+                                <button class="btn btn-primary">Cập nhật</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>
