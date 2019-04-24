@@ -77,6 +77,7 @@
     </Key>
     <Property Name="MaLoaiPhong" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="TenLoaiPhong" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MucDich" Type="int" />
   </EntityType>
   <EntityType Name="Lop">
     <Key>
@@ -94,6 +95,17 @@
     <Property Name="LoaiMauBieuId" Type="int" Nullable="false" />
     <Property Name="TieuDe" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="NoiDung" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="PhiPhong">
+    <Key>
+      <PropertyRef Name="PhiPhongId" />
+    </Key>
+    <Property Name="PhiPhongId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaSinhVien" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Thang" Type="date" Nullable="false" />
+    <Property Name="TrangThai" Type="bit" Nullable="false" />
+    <Property Name="SoTien" Type="float" Nullable="false" />
+    <Property Name="GhiChu" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Phong">
     <Key>
@@ -288,6 +300,18 @@
       </Principal>
       <Dependent Role="MauBieu">
         <PropertyRef Name="LoaiMauBieuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhiPhong_SinhVien">
+    <End Role="SinhVien" Type="Self.SinhVien" Multiplicity="1" />
+    <End Role="PhiPhong" Type="Self.PhiPhong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SinhVien">
+        <PropertyRef Name="MaSinhVien" />
+      </Principal>
+      <Dependent Role="PhiPhong">
+        <PropertyRef Name="MaSinhVien" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -519,6 +543,7 @@
     <EntitySet Name="LoaiPhong" EntityType="Self.LoaiPhong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Lop" EntityType="Self.Lop" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MauBieu" EntityType="Self.MauBieu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhiPhong" EntityType="Self.PhiPhong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Phong" EntityType="Self.Phong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhongGiaDien" EntityType="Self.PhongGiaDien" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhongGiaNuoc" EntityType="Self.PhongGiaNuoc" Schema="dbo" store:Type="Tables" />
@@ -546,6 +571,10 @@
     <AssociationSet Name="FK_MauBieu_LoaiMauBieu" Association="Self.FK_MauBieu_LoaiMauBieu">
       <End Role="LoaiMauBieu" EntitySet="LoaiMauBieu" />
       <End Role="MauBieu" EntitySet="MauBieu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhiPhong_SinhVien" Association="Self.FK_PhiPhong_SinhVien">
+      <End Role="SinhVien" EntitySet="SinhVien" />
+      <End Role="PhiPhong" EntitySet="PhiPhong" />
     </AssociationSet>
     <AssociationSet Name="FK_Phong_LoaiPhong" Association="Self.FK_Phong_LoaiPhong">
       <End Role="LoaiPhong" EntitySet="LoaiPhong" />

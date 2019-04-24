@@ -51,6 +51,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="KyLuats">
+      <EntityTypeMapping TypeName="QLSVNoiTruModel.KyLuat">
+        <MappingFragment StoreEntitySet="KyLuat">
+          <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
+          <ScalarProperty Name="MucDo" ColumnName="MucDo" />
+          <ScalarProperty Name="TenKyLuat" ColumnName="TenKyLuat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="KyTucXas">
       <EntityTypeMapping TypeName="QLSVNoiTruModel.KyTucXa">
         <MappingFragment StoreEntitySet="KyTucXa">
@@ -74,6 +83,7 @@
     <EntitySetMapping Name="LoaiPhongs">
       <EntityTypeMapping TypeName="QLSVNoiTruModel.LoaiPhong">
         <MappingFragment StoreEntitySet="LoaiPhong">
+          <ScalarProperty Name="MucDich" ColumnName="MucDich" />
           <ScalarProperty Name="MaLoaiPhong" ColumnName="MaLoaiPhong" />
           <ScalarProperty Name="TenLoaiPhong" ColumnName="TenLoaiPhong" />
         </MappingFragment>
@@ -168,7 +178,6 @@
     <EntitySetMapping Name="SinhViens">
       <EntityTypeMapping TypeName="QLSVNoiTruModel.SinhVien">
         <MappingFragment StoreEntitySet="SinhVien">
-          <ScalarProperty Name="KhenThuong" ColumnName="KhenThuong" />
           <ScalarProperty Name="MaSinhVien" ColumnName="MaSinhVien" />
           <ScalarProperty Name="MaLop" ColumnName="MaLop" />
           <ScalarProperty Name="SoHieuPhong" ColumnName="SoHieuPhong" />
@@ -182,6 +191,7 @@
           <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
           <ScalarProperty Name="TrangThaiO" ColumnName="TrangThaiO" />
           <ScalarProperty Name="NgayNhanPhong" ColumnName="NgayNhanPhong" />
+          <ScalarProperty Name="KhenThuong" ColumnName="KhenThuong" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -205,6 +215,16 @@
           <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
           <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
           <ScalarProperty Name="NgayCapNhat" ColumnName="NgayCapNhat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SinhVienKyLuats">
+      <EntityTypeMapping TypeName="QLSVNoiTruModel.SinhVienKyLuat">
+        <MappingFragment StoreEntitySet="SinhVienKyLuat">
+          <ScalarProperty Name="SinhVienKyLuatId" ColumnName="SinhVienKyLuatId" />
+          <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
+          <ScalarProperty Name="MaSinhVien" ColumnName="MaSinhVien" />
+          <ScalarProperty Name="Chon" ColumnName="Chon" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -264,22 +284,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="KyLuats">
-      <EntityTypeMapping TypeName="QLSVNoiTruModel.KyLuat">
-        <MappingFragment StoreEntitySet="KyLuat">
-          <ScalarProperty Name="TenKyLuat" ColumnName="TenKyLuat" />
-          <ScalarProperty Name="MucDo" ColumnName="MucDo" />
-          <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SinhVienKyLuats">
-      <EntityTypeMapping TypeName="QLSVNoiTruModel.SinhVienKyLuat">
-        <MappingFragment StoreEntitySet="SinhVienKyLuat">
-          <ScalarProperty Name="Chon" ColumnName="Chon" />
+    <EntitySetMapping Name="PhiPhongs">
+      <EntityTypeMapping TypeName="QLSVNoiTruModel.PhiPhong">
+        <MappingFragment StoreEntitySet="PhiPhong">
+          <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+          <ScalarProperty Name="SoTien" ColumnName="SoTien" />
+          <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+          <ScalarProperty Name="Thang" ColumnName="Thang" />
           <ScalarProperty Name="MaSinhVien" ColumnName="MaSinhVien" />
-          <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
-          <ScalarProperty Name="SinhVienKyLuatId" ColumnName="SinhVienKyLuatId" />
+          <ScalarProperty Name="PhiPhongId" ColumnName="PhiPhongId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

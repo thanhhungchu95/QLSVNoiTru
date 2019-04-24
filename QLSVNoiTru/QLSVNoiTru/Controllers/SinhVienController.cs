@@ -18,7 +18,7 @@ namespace QLSVNoiTru.Controllers
             return View();
         }
 
-        public ActionResult DangKyNoiTru()
+        public ActionResult DangKyNoiTru(string gioitinh = "Nam")
         {
             var db = new DB();
             ViewData["lops"] = db.Lops.ToList();
@@ -36,20 +36,25 @@ namespace QLSVNoiTru.Controllers
                 };
                 x.Phongs.ToList().ForEach(y =>
                 {
-                    int svDaO = db.SinhViens.Where(z => z.SoHieuPhong == y.SoHieuPhong && z.TrangThaiO == (int)TrangThaiO.DangO).Count();
-                    eTang.Phongs.Add(new EPhong()
+                    if ((gioitinh == "Nam" && (y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.ChiDanhCHoNam || y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.CaNamNu))
+                    || (gioitinh == "Nữ" && (y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.ChiDanhCHoNu || y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.CaNamNu)))
                     {
-                        LoaiPhong = y.LoaiPhong,
-                        MaLoaiPhong = y.MaLoaiPhong,
-                        SoHieuPhong = y.SoHieuPhong,
-                        SoPhongDaO = svDaO,
-                        SucChuaToiDa = y.SucChuaToiDa,
-                        TangId = y.TangId
-                    });
+                        int svDaO = db.SinhViens.Where(z => z.SoHieuPhong == y.SoHieuPhong && z.TrangThaiO == (int)TrangThaiO.DangO).Count();
+                        eTang.Phongs.Add(new EPhong()
+                        {
+                            LoaiPhong = y.LoaiPhong,
+                            MaLoaiPhong = y.MaLoaiPhong,
+                            SoHieuPhong = y.SoHieuPhong,
+                            SoPhongDaO = svDaO,
+                            SucChuaToiDa = y.SucChuaToiDa,
+                            TangId = y.TangId
+                        });
+                    }
                 });
                 eTangs.Add(eTang);
             });
             ViewData["eTangs"] = eTangs;
+            ViewBag.gioitinh = gioitinh;
             return View();
         }
         public JsonResult KiemTraTrung(string maSinhVien)
@@ -172,7 +177,7 @@ namespace QLSVNoiTru.Controllers
         public ActionResult ChiTietDangKyNoiTruNhanh(string masinhvien)
         {
             var db = new DB();
-            ViewData["lops"] = db.Lops.ToList();
+            SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
             List<Tang> tangs = db.Tangs.OrderByDescending(x => x.TangId).ToList();
             if (tangs == null)
                 tangs = new List<Tang>();
@@ -187,21 +192,26 @@ namespace QLSVNoiTru.Controllers
                 };
                 x.Phongs.ToList().ForEach(y =>
                 {
-                    int svDaO = db.SinhViens.Where(z => z.SoHieuPhong == y.SoHieuPhong && z.TrangThaiO == (int)TrangThaiO.DangO).Count();
-                    eTang.Phongs.Add(new EPhong()
+                    if ((sinhVien.GioiTinh == "Nam" && (y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.ChiDanhCHoNam || y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.CaNamNu))
+                       || (sinhVien.GioiTinh == "Nữ" && (y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.ChiDanhCHoNu || y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.CaNamNu)))
                     {
-                        LoaiPhong = y.LoaiPhong,
-                        MaLoaiPhong = y.MaLoaiPhong,
-                        SoHieuPhong = y.SoHieuPhong,
-                        SoPhongDaO = svDaO,
-                        SucChuaToiDa = y.SucChuaToiDa,
-                        TangId = y.TangId
-                    });
+                        int svDaO = db.SinhViens.Where(z => z.SoHieuPhong == y.SoHieuPhong && z.TrangThaiO == (int)TrangThaiO.DangO).Count();
+                        eTang.Phongs.Add(new EPhong()
+                        {
+                            LoaiPhong = y.LoaiPhong,
+                            MaLoaiPhong = y.MaLoaiPhong,
+                            SoHieuPhong = y.SoHieuPhong,
+                            SoPhongDaO = svDaO,
+                            SucChuaToiDa = y.SucChuaToiDa,
+                            TangId = y.TangId
+                        });
+                    }
                 });
                 eTangs.Add(eTang);
             });
             ViewData["eTangs"] = eTangs;
-            ViewData["sinhvien"] = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
+            ViewData["lops"] = db.Lops.ToList();
+            ViewData["sinhvien"] = sinhVien;
             return View();
         }
         [HttpPost]
@@ -218,7 +228,7 @@ namespace QLSVNoiTru.Controllers
             return RedirectToAction("DangKyNoiTruNhanh");
         }
 
-        public ActionResult DangKyThem()
+        public ActionResult DangKyThem(string gioitinh = "Nam")
         {
             var db = new DB();
             ViewData["lops"] = db.Lops.ToList();
@@ -236,20 +246,25 @@ namespace QLSVNoiTru.Controllers
                 };
                 x.Phongs.ToList().ForEach(y =>
                 {
-                    int svDaO = db.SinhViens.Where(z => z.SoHieuPhong == y.SoHieuPhong && z.TrangThaiO == (int)TrangThaiO.DangO).Count();
-                    eTang.Phongs.Add(new EPhong()
+                    if ((gioitinh == "Nam" && (y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.ChiDanhCHoNam || y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.CaNamNu))
+                      || (gioitinh == "Nữ" && (y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.ChiDanhCHoNu || y.LoaiPhong.MucDich == (int)MucDichLoaiPhong.CaNamNu)))
                     {
-                        LoaiPhong = y.LoaiPhong,
-                        MaLoaiPhong = y.MaLoaiPhong,
-                        SoHieuPhong = y.SoHieuPhong,
-                        SoPhongDaO = svDaO,
-                        SucChuaToiDa = y.SucChuaToiDa,
-                        TangId = y.TangId
-                    });
+                        int svDaO = db.SinhViens.Where(z => z.SoHieuPhong == y.SoHieuPhong && z.TrangThaiO == (int)TrangThaiO.DangO).Count();
+                        eTang.Phongs.Add(new EPhong()
+                        {
+                            LoaiPhong = y.LoaiPhong,
+                            MaLoaiPhong = y.MaLoaiPhong,
+                            SoHieuPhong = y.SoHieuPhong,
+                            SoPhongDaO = svDaO,
+                            SucChuaToiDa = y.SucChuaToiDa,
+                            TangId = y.TangId
+                        });
+                    }
                 });
                 eTangs.Add(eTang);
             });
             ViewData["eTangs"] = eTangs;
+            ViewBag.gioitinh = gioitinh;
             return View();
         }
 

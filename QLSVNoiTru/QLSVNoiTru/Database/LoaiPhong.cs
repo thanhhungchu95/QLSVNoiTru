@@ -22,6 +22,7 @@ namespace QLSVNoiTru.Database
     
         public string MaLoaiPhong { get; set; }
         public string TenLoaiPhong { get; set; }
+        public Nullable<int> MucDich { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Phong> Phongs { get; set; }

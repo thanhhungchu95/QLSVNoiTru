@@ -53,7 +53,8 @@ namespace QLSVNoiTru.Controllers
             return Json(new
             {
                 loaiPhong.MaLoaiPhong,
-                loaiPhong.TenLoaiPhong
+                loaiPhong.TenLoaiPhong,
+                loaiPhong.MucDich
             }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -64,6 +65,7 @@ namespace QLSVNoiTru.Controllers
             if (loaiPhong != null)
             {
                 loaiPhongCu.TenLoaiPhong = loaiPhong.TenLoaiPhong;
+                loaiPhongCu.MucDich = loaiPhong.MucDich;
                 db.SaveChanges();
             }
             return RedirectToAction("DanhSachLoaiPhong");

@@ -82,6 +82,7 @@
           </Key>
           <Property Name="MaLoaiPhong" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TenLoaiPhong" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MucDich" Type="int" />
         </EntityType>
         <EntityType Name="Lop">
           <Key>
@@ -99,6 +100,17 @@
           <Property Name="LoaiMauBieuId" Type="int" Nullable="false" />
           <Property Name="TieuDe" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="NoiDung" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PhiPhong">
+          <Key>
+            <PropertyRef Name="PhiPhongId" />
+          </Key>
+          <Property Name="PhiPhongId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaSinhVien" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Thang" Type="date" Nullable="false" />
+          <Property Name="TrangThai" Type="bit" Nullable="false" />
+          <Property Name="SoTien" Type="float" Nullable="false" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Phong">
           <Key>
@@ -293,6 +305,18 @@
             </Principal>
             <Dependent Role="MauBieu">
               <PropertyRef Name="LoaiMauBieuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhiPhong_SinhVien">
+          <End Role="SinhVien" Type="Self.SinhVien" Multiplicity="1" />
+          <End Role="PhiPhong" Type="Self.PhiPhong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SinhVien">
+              <PropertyRef Name="MaSinhVien" />
+            </Principal>
+            <Dependent Role="PhiPhong">
+              <PropertyRef Name="MaSinhVien" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -524,6 +548,7 @@
           <EntitySet Name="LoaiPhong" EntityType="Self.LoaiPhong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lop" EntityType="Self.Lop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MauBieu" EntityType="Self.MauBieu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhiPhong" EntityType="Self.PhiPhong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Phong" EntityType="Self.Phong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongGiaDien" EntityType="Self.PhongGiaDien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongGiaNuoc" EntityType="Self.PhongGiaNuoc" Schema="dbo" store:Type="Tables" />
@@ -551,6 +576,10 @@
           <AssociationSet Name="FK_MauBieu_LoaiMauBieu" Association="Self.FK_MauBieu_LoaiMauBieu">
             <End Role="LoaiMauBieu" EntitySet="LoaiMauBieu" />
             <End Role="MauBieu" EntitySet="MauBieu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhiPhong_SinhVien" Association="Self.FK_PhiPhong_SinhVien">
+            <End Role="SinhVien" EntitySet="SinhVien" />
+            <End Role="PhiPhong" EntitySet="PhiPhong" />
           </AssociationSet>
           <AssociationSet Name="FK_Phong_LoaiPhong" Association="Self.FK_Phong_LoaiPhong">
             <End Role="LoaiPhong" EntitySet="LoaiPhong" />
@@ -679,6 +708,15 @@
           <Property Name="TenKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Lops" Relationship="Self.FK_Lop_Khoa" FromRole="Khoa" ToRole="Lop" />
         </EntityType>
+        <EntityType Name="KyLuat">
+          <Key>
+            <PropertyRef Name="MaKyLuat" />
+          </Key>
+          <Property Name="MaKyLuat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MucDo" Type="Int32" />
+          <Property Name="TenKyLuat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SinhVienKyLuats" Relationship="Self.FK_SinhVienKyLuat_KyLuat" FromRole="KyLuat" ToRole="SinhVienKyLuat" />
+        </EntityType>
         <EntityType Name="KyTucXa">
           <Key>
             <PropertyRef Name="KyTucXaId" />
@@ -705,6 +743,7 @@
           <Property Name="MaLoaiPhong" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TenLoaiPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Phongs" Relationship="Self.FK_Phong_LoaiPhong" FromRole="LoaiPhong" ToRole="Phong" />
+          <Property Name="MucDich" Type="Int32" />
         </EntityType>
         <EntityType Name="Lop">
           <Key>
@@ -821,12 +860,13 @@
           <Property Name="GhiChu" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="TrangThaiO" Type="Int32" />
           <Property Name="NgayNhanPhong" Type="DateTime" Precision="3" />
+          <Property Name="KhenThuong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Lop" Relationship="Self.FK_SinhVien_Lop" FromRole="SinhVien" ToRole="Lop" />
           <NavigationProperty Name="Phong" Relationship="Self.FK_SinhVien_Phong" FromRole="SinhVien" ToRole="Phong" />
           <NavigationProperty Name="SinhVienChuyenPhongs" Relationship="Self.FK_SinhVienChuyenPhong_SinhVien" FromRole="SinhVien" ToRole="SinhVienChuyenPhong" />
           <NavigationProperty Name="SinhVienHoatDongs" Relationship="Self.FK_SinhVienHoatDong_SinhVien" FromRole="SinhVien" ToRole="SinhVienHoatDong" />
-          <NavigationProperty Name="SinhVienKyLuats" Relationship="QLSVNoiTruModel.FK_SinhVienKyLuat_SinhVien" FromRole="SinhVien" ToRole="SinhVienKyLuat" />
-          <Property Name="KhenThuong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SinhVienKyLuats" Relationship="Self.FK_SinhVienKyLuat_SinhVien" FromRole="SinhVien" ToRole="SinhVienKyLuat" />
+          <NavigationProperty Name="PhiPhongs" Relationship="QLSVNoiTruModel.FK_PhiPhong_SinhVien" FromRole="SinhVien" ToRole="PhiPhong" />
         </EntityType>
         <EntityType Name="SinhVienChuyenPhong">
           <Key>
@@ -850,6 +890,17 @@
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NgayCapNhat" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="SinhVien" Relationship="Self.FK_SinhVienHoatDong_SinhVien" FromRole="SinhVienHoatDong" ToRole="SinhVien" />
+        </EntityType>
+        <EntityType Name="SinhVienKyLuat">
+          <Key>
+            <PropertyRef Name="SinhVienKyLuatId" />
+          </Key>
+          <Property Name="SinhVienKyLuatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaKyLuat" Type="Int32" Nullable="false" />
+          <Property Name="MaSinhVien" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Chon" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="KyLuat" Relationship="Self.FK_SinhVienKyLuat_KyLuat" FromRole="SinhVienKyLuat" ToRole="KyLuat" />
+          <NavigationProperty Name="SinhVien" Relationship="Self.FK_SinhVienKyLuat_SinhVien" FromRole="SinhVienKyLuat" ToRole="SinhVien" />
         </EntityType>
         <EntityType Name="SinhVienOLai">
           <Key>
@@ -963,6 +1014,18 @@
             </Principal>
             <Dependent Role="Lop">
               <PropertyRef Name="MaKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SinhVienKyLuat_KyLuat">
+          <End Role="KyLuat" Type="Self.KyLuat" Multiplicity="1" />
+          <End Role="SinhVienKyLuat" Type="Self.SinhVienKyLuat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KyLuat">
+              <PropertyRef Name="MaKyLuat" />
+            </Principal>
+            <Dependent Role="SinhVienKyLuat">
+              <PropertyRef Name="MaKyLuat" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1122,6 +1185,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SinhVienKyLuat_SinhVien">
+          <End Role="SinhVien" Type="Self.SinhVien" Multiplicity="1" />
+          <End Role="SinhVienKyLuat" Type="Self.SinhVienKyLuat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SinhVien">
+              <PropertyRef Name="MaSinhVien" />
+            </Principal>
+            <Dependent Role="SinhVienKyLuat">
+              <PropertyRef Name="MaSinhVien" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserQuyen_User1">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="UserQuyen" Type="Self.UserQuyen" Multiplicity="*" />
@@ -1140,6 +1215,7 @@
           <EntitySet Name="GiaNuocs" EntityType="Self.GiaNuoc" />
           <EntitySet Name="HoaDonDienNuocs" EntityType="Self.HoaDonDienNuoc" />
           <EntitySet Name="Khoas" EntityType="Self.Khoa" />
+          <EntitySet Name="KyLuats" EntityType="Self.KyLuat" />
           <EntitySet Name="KyTucXas" EntityType="Self.KyTucXa" />
           <EntitySet Name="LoaiMauBieux" EntityType="Self.LoaiMauBieu" />
           <EntitySet Name="LoaiPhongs" EntityType="Self.LoaiPhong" />
@@ -1154,6 +1230,7 @@
           <EntitySet Name="SinhViens" EntityType="Self.SinhVien" />
           <EntitySet Name="SinhVienChuyenPhongs" EntityType="Self.SinhVienChuyenPhong" />
           <EntitySet Name="SinhVienHoatDongs" EntityType="Self.SinhVienHoatDong" />
+          <EntitySet Name="SinhVienKyLuats" EntityType="Self.SinhVienKyLuat" />
           <EntitySet Name="SinhVienOLais" EntityType="Self.SinhVienOLai" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tangs" EntityType="Self.Tang" />
@@ -1179,6 +1256,10 @@
           <AssociationSet Name="FK_Lop_Khoa" Association="Self.FK_Lop_Khoa">
             <End Role="Khoa" EntitySet="Khoas" />
             <End Role="Lop" EntitySet="Lops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SinhVienKyLuat_KyLuat" Association="Self.FK_SinhVienKyLuat_KyLuat">
+            <End Role="KyLuat" EntitySet="KyLuats" />
+            <End Role="SinhVienKyLuat" EntitySet="SinhVienKyLuats" />
           </AssociationSet>
           <AssociationSet Name="FK_MauBieu_LoaiMauBieu" Association="Self.FK_MauBieu_LoaiMauBieu">
             <End Role="LoaiMauBieu" EntitySet="LoaiMauBieux" />
@@ -1232,61 +1313,40 @@
             <End Role="SinhVien" EntitySet="SinhViens" />
             <End Role="SinhVienHoatDong" EntitySet="SinhVienHoatDongs" />
           </AssociationSet>
+          <AssociationSet Name="FK_SinhVienKyLuat_SinhVien" Association="Self.FK_SinhVienKyLuat_SinhVien">
+            <End Role="SinhVien" EntitySet="SinhViens" />
+            <End Role="SinhVienKyLuat" EntitySet="SinhVienKyLuats" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserQuyen_User1" Association="Self.FK_UserQuyen_User1">
             <End Role="User" EntitySet="Users" />
             <End Role="UserQuyen" EntitySet="UserQuyens" />
           </AssociationSet>
-          <EntitySet Name="KyLuats" EntityType="QLSVNoiTruModel.KyLuat" />
-          <EntitySet Name="SinhVienKyLuats" EntityType="QLSVNoiTruModel.SinhVienKyLuat" />
-          <AssociationSet Name="FK_SinhVienKyLuat_KyLuat" Association="QLSVNoiTruModel.FK_SinhVienKyLuat_KyLuat">
-            <End Role="KyLuat" EntitySet="KyLuats" />
-            <End Role="SinhVienKyLuat" EntitySet="SinhVienKyLuats" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SinhVienKyLuat_SinhVien" Association="QLSVNoiTruModel.FK_SinhVienKyLuat_SinhVien">
+          <EntitySet Name="PhiPhongs" EntityType="QLSVNoiTruModel.PhiPhong" />
+          <AssociationSet Name="FK_PhiPhong_SinhVien" Association="QLSVNoiTruModel.FK_PhiPhong_SinhVien">
             <End Role="SinhVien" EntitySet="SinhViens" />
-            <End Role="SinhVienKyLuat" EntitySet="SinhVienKyLuats" />
+            <End Role="PhiPhong" EntitySet="PhiPhongs" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="KyLuat">
+        <EntityType Name="PhiPhong">
           <Key>
-            <PropertyRef Name="MaKyLuat" />
+            <PropertyRef Name="PhiPhongId" />
           </Key>
-          <Property Name="MaKyLuat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MucDo" Type="Int32" />
-          <Property Name="TenKyLuat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SinhVienKyLuats" Relationship="QLSVNoiTruModel.FK_SinhVienKyLuat_KyLuat" FromRole="KyLuat" ToRole="SinhVienKyLuat" />
-        </EntityType>
-        <EntityType Name="SinhVienKyLuat">
-          <Key>
-            <PropertyRef Name="SinhVienKyLuatId" />
-          </Key>
-          <Property Name="SinhVienKyLuatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaKyLuat" Type="Int32" Nullable="false" />
+          <Property Name="PhiPhongId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaSinhVien" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Chon" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="KyLuat" Relationship="QLSVNoiTruModel.FK_SinhVienKyLuat_KyLuat" FromRole="SinhVienKyLuat" ToRole="KyLuat" />
-          <NavigationProperty Name="SinhVien" Relationship="QLSVNoiTruModel.FK_SinhVienKyLuat_SinhVien" FromRole="SinhVienKyLuat" ToRole="SinhVien" />
+          <Property Name="Thang" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TrangThai" Type="Boolean" Nullable="false" />
+          <Property Name="SoTien" Type="Double" Nullable="false" />
+          <Property Name="GhiChu" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SinhVien" Relationship="QLSVNoiTruModel.FK_PhiPhong_SinhVien" FromRole="PhiPhong" ToRole="SinhVien" />
         </EntityType>
-        <Association Name="FK_SinhVienKyLuat_KyLuat">
-          <End Type="QLSVNoiTruModel.KyLuat" Role="KyLuat" Multiplicity="1" />
-          <End Type="QLSVNoiTruModel.SinhVienKyLuat" Role="SinhVienKyLuat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KyLuat">
-              <PropertyRef Name="MaKyLuat" />
-            </Principal>
-            <Dependent Role="SinhVienKyLuat">
-              <PropertyRef Name="MaKyLuat" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SinhVienKyLuat_SinhVien">
+        <Association Name="FK_PhiPhong_SinhVien">
           <End Type="QLSVNoiTruModel.SinhVien" Role="SinhVien" Multiplicity="1" />
-          <End Type="QLSVNoiTruModel.SinhVienKyLuat" Role="SinhVienKyLuat" Multiplicity="*" />
+          <End Type="QLSVNoiTruModel.PhiPhong" Role="PhiPhong" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SinhVien">
               <PropertyRef Name="MaSinhVien" />
             </Principal>
-            <Dependent Role="SinhVienKyLuat">
+            <Dependent Role="PhiPhong">
               <PropertyRef Name="MaSinhVien" />
             </Dependent>
           </ReferentialConstraint>
@@ -1347,6 +1407,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="KyLuats">
+            <EntityTypeMapping TypeName="QLSVNoiTruModel.KyLuat">
+              <MappingFragment StoreEntitySet="KyLuat">
+                <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
+                <ScalarProperty Name="MucDo" ColumnName="MucDo" />
+                <ScalarProperty Name="TenKyLuat" ColumnName="TenKyLuat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="KyTucXas">
             <EntityTypeMapping TypeName="QLSVNoiTruModel.KyTucXa">
               <MappingFragment StoreEntitySet="KyTucXa">
@@ -1370,6 +1439,7 @@
           <EntitySetMapping Name="LoaiPhongs">
             <EntityTypeMapping TypeName="QLSVNoiTruModel.LoaiPhong">
               <MappingFragment StoreEntitySet="LoaiPhong">
+                <ScalarProperty Name="MucDich" ColumnName="MucDich" />
                 <ScalarProperty Name="MaLoaiPhong" ColumnName="MaLoaiPhong" />
                 <ScalarProperty Name="TenLoaiPhong" ColumnName="TenLoaiPhong" />
               </MappingFragment>
@@ -1464,7 +1534,6 @@
           <EntitySetMapping Name="SinhViens">
             <EntityTypeMapping TypeName="QLSVNoiTruModel.SinhVien">
               <MappingFragment StoreEntitySet="SinhVien">
-                <ScalarProperty Name="KhenThuong" ColumnName="KhenThuong" />
                 <ScalarProperty Name="MaSinhVien" ColumnName="MaSinhVien" />
                 <ScalarProperty Name="MaLop" ColumnName="MaLop" />
                 <ScalarProperty Name="SoHieuPhong" ColumnName="SoHieuPhong" />
@@ -1478,6 +1547,7 @@
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
                 <ScalarProperty Name="TrangThaiO" ColumnName="TrangThaiO" />
                 <ScalarProperty Name="NgayNhanPhong" ColumnName="NgayNhanPhong" />
+                <ScalarProperty Name="KhenThuong" ColumnName="KhenThuong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1501,6 +1571,16 @@
                 <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
                 <ScalarProperty Name="NgayCapNhat" ColumnName="NgayCapNhat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SinhVienKyLuats">
+            <EntityTypeMapping TypeName="QLSVNoiTruModel.SinhVienKyLuat">
+              <MappingFragment StoreEntitySet="SinhVienKyLuat">
+                <ScalarProperty Name="SinhVienKyLuatId" ColumnName="SinhVienKyLuatId" />
+                <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
+                <ScalarProperty Name="MaSinhVien" ColumnName="MaSinhVien" />
+                <ScalarProperty Name="Chon" ColumnName="Chon" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1560,22 +1640,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="KyLuats">
-            <EntityTypeMapping TypeName="QLSVNoiTruModel.KyLuat">
-              <MappingFragment StoreEntitySet="KyLuat">
-                <ScalarProperty Name="TenKyLuat" ColumnName="TenKyLuat" />
-                <ScalarProperty Name="MucDo" ColumnName="MucDo" />
-                <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SinhVienKyLuats">
-            <EntityTypeMapping TypeName="QLSVNoiTruModel.SinhVienKyLuat">
-              <MappingFragment StoreEntitySet="SinhVienKyLuat">
-                <ScalarProperty Name="Chon" ColumnName="Chon" />
+          <EntitySetMapping Name="PhiPhongs">
+            <EntityTypeMapping TypeName="QLSVNoiTruModel.PhiPhong">
+              <MappingFragment StoreEntitySet="PhiPhong">
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="SoTien" ColumnName="SoTien" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="Thang" ColumnName="Thang" />
                 <ScalarProperty Name="MaSinhVien" ColumnName="MaSinhVien" />
-                <ScalarProperty Name="MaKyLuat" ColumnName="MaKyLuat" />
-                <ScalarProperty Name="SinhVienKyLuatId" ColumnName="SinhVienKyLuatId" />
+                <ScalarProperty Name="PhiPhongId" ColumnName="PhiPhongId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

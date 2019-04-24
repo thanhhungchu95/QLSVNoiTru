@@ -30,6 +30,7 @@ namespace QLSVNoiTru.Database
         public virtual DbSet<GiaNuoc> GiaNuocs { get; set; }
         public virtual DbSet<HoaDonDienNuoc> HoaDonDienNuocs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
+        public virtual DbSet<KyLuat> KyLuats { get; set; }
         public virtual DbSet<KyTucXa> KyTucXas { get; set; }
         public virtual DbSet<LoaiMauBieu> LoaiMauBieux { get; set; }
         public virtual DbSet<LoaiPhong> LoaiPhongs { get; set; }
@@ -44,13 +45,13 @@ namespace QLSVNoiTru.Database
         public virtual DbSet<SinhVien> SinhViens { get; set; }
         public virtual DbSet<SinhVienChuyenPhong> SinhVienChuyenPhongs { get; set; }
         public virtual DbSet<SinhVienHoatDong> SinhVienHoatDongs { get; set; }
+        public virtual DbSet<SinhVienKyLuat> SinhVienKyLuats { get; set; }
         public virtual DbSet<SinhVienOLai> SinhVienOLais { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tang> Tangs { get; set; }
         public virtual DbSet<ThietBi> ThietBis { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserQuyen> UserQuyens { get; set; }
-        public virtual DbSet<KyLuat> KyLuats { get; set; }
-        public virtual DbSet<SinhVienKyLuat> SinhVienKyLuats { get; set; }
+        public virtual DbSet<PhiPhong> PhiPhongs { get; set; }
     }
 }

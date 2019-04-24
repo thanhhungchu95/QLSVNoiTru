@@ -221,6 +221,9 @@
     <Compile Include="Database\MauBieu.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\PhiPhong.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Phong.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>

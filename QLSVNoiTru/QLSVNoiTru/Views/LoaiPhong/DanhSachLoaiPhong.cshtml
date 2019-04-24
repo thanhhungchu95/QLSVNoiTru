@@ -1,4 +1,5 @@
 ﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
 @{
     ViewBag.Title = "Thông tin loại phòng";
     List<LoaiPhong> loaiphongs = (List<LoaiPhong>)ViewData["loaiphongs"];
@@ -23,6 +24,7 @@
                             <tr>
                                 <th>Mã loại phòng</th>
                                 <th>Tên loại phòng</th>
+                                <th>Mục đích</th>
                                 <th style="width: 120px;"></th>
                             </tr>
                         </thead>
@@ -32,6 +34,7 @@
                                 <tr>
                                     <td>@item.MaLoaiPhong</td>
                                     <td>@item.TenLoaiPhong</td>
+                                    <td>@(DataHelper.ConvertMucDichLoaiPhong(item.MucDich ?? -1))</td>
                                     <td class="text-center">
                                         <button onclick="chitiet('@item.MaLoaiPhong')" class="btn btn-primary btn-sm">Sửa</button>
                                         <button onclick="xacnhanxoa('@item.MaLoaiPhong')" class="btn btn-danger btn-sm">Xóa</button>
@@ -64,6 +67,15 @@
                             <div class="form-group">
                                 <label>Tên loại phòng <span class="required-field">(*)</span></label>
                                 <input required name="TenLoaiPhong" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>Mục đích <span class="required-field">(*)</span></label>
+                                <select class="form-control" name="MucDich">
+                                    <option value="1">@(DataHelper.ConvertMucDichLoaiPhong(1))</option>
+                                    <option value="2">@(DataHelper.ConvertMucDichLoaiPhong(2))</option>
+                                    <option value="3">@(DataHelper.ConvertMucDichLoaiPhong(3))</option>
+                                    <option value="4">@(DataHelper.ConvertMucDichLoaiPhong(4))</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -103,6 +115,7 @@
         isThemMoi = true;
         document.getElementsByName("MaLoaiPhong")[0].value = "";
         document.getElementsByName("TenLoaiPhong")[0].value = "";
+        document.getElementsByName("MucDich")[0].value = "1";
         $("#MaLoaiPhong").removeAttr("readonly");
         $("#form-submit").attr("action", "/loaiphong/themmoi");
         $("#myModal").modal();
@@ -116,6 +129,7 @@
         $.get(urlChiTiet + maLoaiPhong, function (data) {
             document.getElementsByName("MaLoaiPhong")[0].value = data.MaLoaiPhong;
             document.getElementsByName("TenLoaiPhong")[0].value = data.TenLoaiPhong;
+            document.getElementsByName("MucDich")[0].value = data.MucDich;
             $("#form-submit").attr("action", "/loaiphong/capnhat");
             $("#MaLoaiPhong").attr("readonly", "readonly");
             $("#myModal").modal();
