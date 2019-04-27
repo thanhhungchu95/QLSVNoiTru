@@ -17,14 +17,20 @@ namespace QLSVNoiTru.Database
         public int HoaDonDienNuocId { get; set; }
         public string SoHieuPhong { get; set; }
         public string NguoiNopTien { get; set; }
-        public double TienDien { get; set; }
-        public double TienNuoc { get; set; }
+        public int GiaDienId { get; set; }
+        public int Chisodiendau { get; set; }
+        public int Chisodiencuoi { get; set; }
+        public int GiaNuocId { get; set; }
+        public int Chisonuocdau { get; set; }
+        public int Chisonuoccuoi { get; set; }
         public System.DateTime ThangGhi { get; set; }
-        public string GhiChu { get; set; }
-        public string NoiDung { get; set; }
         public Nullable<System.DateTime> NgayLap { get; set; }
-        public string NguoiLap { get; set; }
+        public string GhiChu { get; set; }
+        public Nullable<int> TrangThai { get; set; }
+        public Nullable<double> TongTien { get; set; }
     
+        public virtual GiaDien GiaDien { get; set; }
+        public virtual GiaNuoc GiaNuoc { get; set; }
         public virtual Phong Phong { get; set; }
     }
 }

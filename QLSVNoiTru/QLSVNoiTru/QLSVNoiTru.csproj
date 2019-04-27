@@ -161,6 +161,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GiaDienController.cs" />
     <Compile Include="Controllers\GiaNuocController.cs" />
+    <Compile Include="Controllers\HoaDonController.cs" />
     <Compile Include="Controllers\KhoaController.cs" />
     <Compile Include="Controllers\KyLuatController.cs" />
     <Compile Include="Controllers\KyLuatKhenThuongController.cs" />
@@ -225,12 +226,6 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Phong.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\PhongGiaDien.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\PhongGiaNuoc.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\PhongThietBi.cs">
@@ -1511,6 +1506,7 @@
     <Content Include="Views\SinhVien\DangKyThem.cshtml" />
     <Content Include="Views\SinhVien\ChiTietSinhVien.cshtml" />
     <Content Include="Views\Phong\DSSinhVienO.cshtml" />
+    <Content Include="Views\HoaDon\DanhSachHoaDonDienNuoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="QLSVNoiTruModel.Action" Width="1.5" PointX="12.75" PointY="15.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.GiaDien" Width="1.5" PointX="6" PointY="19.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.GiaNuoc" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLSVNoiTruModel.HoaDonDienNuoc" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.Khoa" Width="1.5" PointX="3.75" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.KyLuat" Width="1.5" PointX="11.25" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.KyTucXa" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
@@ -17,8 +16,6 @@
         <EntityTypeShape EntityType="QLSVNoiTruModel.Lop" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.MauBieu" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.Phong" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLSVNoiTruModel.PhongGiaDien" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLSVNoiTruModel.PhongGiaNuoc" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.PhongThietBi" Width="1.5" PointX="5.25" PointY="16.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.Quyen" Width="1.5" PointX="12.75" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.QuyenAction" Width="1.5" PointX="15" PointY="12.375" IsExpanded="true" />
@@ -33,17 +30,12 @@
         <EntityTypeShape EntityType="QLSVNoiTruModel.User" Width="1.5" PointX="12.75" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.UserQuyen" Width="1.5" PointX="15" PointY="15.375" IsExpanded="true" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_QuyenAction_Action" ManuallyRouted="false" />
-        <AssociationConnector Association="QLSVNoiTruModel.FK_PhongGiaDien_GiaDien1" ManuallyRouted="false" />
-        <AssociationConnector Association="QLSVNoiTruModel.FK_PhongGiaNuoc_GiaNuoc1" ManuallyRouted="false" />
-        <AssociationConnector Association="QLSVNoiTruModel.FK_HoaDonDienNuoc_Phong" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_Lop_Khoa" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_SinhVienKyLuat_KyLuat" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_MauBieu_LoaiMauBieu" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_Phong_LoaiPhong" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_SinhVien_Lop" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_Phong_Tang" ManuallyRouted="false" />
-        <AssociationConnector Association="QLSVNoiTruModel.FK_PhongGiaDien_Phong" ManuallyRouted="false" />
-        <AssociationConnector Association="QLSVNoiTruModel.FK_PhongGiaNuoc_Phong" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_PhongThietBi_Phong" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_SinhVien_Phong" ManuallyRouted="false" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_PhongThietBi_ThietBi" ManuallyRouted="false" />
@@ -55,6 +47,10 @@
         <AssociationConnector Association="QLSVNoiTruModel.FK_UserQuyen_User1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="QLSVNoiTruModel.PhiPhong" Width="1.5" PointX="13.375" PointY="0.75" />
         <AssociationConnector Association="QLSVNoiTruModel.FK_PhiPhong_SinhVien" />
+        <EntityTypeShape EntityType="QLSVNoiTruModel.HoaDonDienNuoc" Width="1.5" PointX="8.25" PointY="13" />
+        <AssociationConnector Association="QLSVNoiTruModel.FK_HoaDonDienNuoc_GiaDien" />
+        <AssociationConnector Association="QLSVNoiTruModel.FK_HoaDonDienNuoc_GiaNuoc" />
+        <AssociationConnector Association="QLSVNoiTruModel.FK_HoaDonDienNuoc_Phong" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

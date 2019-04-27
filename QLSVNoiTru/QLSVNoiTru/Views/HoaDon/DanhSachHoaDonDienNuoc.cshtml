@@ -1,0 +1,130 @@
+﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
+@{
+    ViewBag.Title = "Danh sách hóa đơn điện nước";
+    List<HoaDonDienNuoc> hoaDonDienNuocs = (List<HoaDonDienNuoc>)ViewData["hoaDonDienNuocs"];
+}
+<script>
+    $("#HOADON").addClass("active");
+</script>
+<div class="body">
+    <section class="content">
+        <div class="header">
+            <div class="col-md-12">
+                <h4 class="header-title">Danh sách hóa đơn điện nước</h4>
+            </div>
+        </div>
+        <!-- CONTENT -->
+        <div class="main-content">
+            <form action="/HoaDon/CapNhatHoaDon" method="post">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tháng</label>
+                                    <div>
+                                        <input id="datefilter" onchange="changeDateFilter()" class="form-control" type="date" name="name" value="@ViewBag.dateFilter" style="max-width:250px" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-primary pull-right" style="margin-bottom:10px">Cập nhật</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="thangghi" value="@ViewBag.dateFilter" />
+                        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-hover datatable">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th colspan="2" class="text-center">Tiền điện</th>
+                                    <th colspan="2" class="text-center">Tiền nước</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Mã hóa đơn</th>
+                                    <th>Số hiệu phòng</th>
+                                    <th>Người nộp tiền</th>
+                                    <th>Chi số đầu</th>
+                                    <th>Chỉ số cuối</th>
+                                    <th>Chi số đầu</th>
+                                    <th>Chỉ số cuối</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Tháng ghi</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th>Trạng thái</th>
+                                    <th style="width: 150px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < hoaDonDienNuocs.Count; i++)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            @if (hoaDonDienNuocs[i].HoaDonDienNuocId != 0)
+                                            {
+                                                @("HD" + hoaDonDienNuocs[i].HoaDonDienNuocId)
+                                            }
+                                            else
+                                            {
+                                                @("--------")
+                                            }
+                                        </td>
+                                        <td>@hoaDonDienNuocs[i].SoHieuPhong</td>
+                                        <td>
+                                            <input @(hoaDonDienNuocs[i].TrangThai == 1?"readonly":"") class="form-control" type="text" name="hoaDonDienNuocs[@i].NguoiNopTien" value="@hoaDonDienNuocs[i].NguoiNopTien" />
+                                        </td>
+                                        <td>
+                                            <input readonly class="form-control" style="max-width:100px" type="text" name="hoaDonDienNuocs[@i].Chisodiendau" value="@hoaDonDienNuocs[i].Chisodiendau" />
+                                        </td>
+                                        <td>
+                                            <input @(hoaDonDienNuocs[i].TrangThai == 1?"readonly":"") class="form-control" style="max-width:100px" type="text" name="hoaDonDienNuocs[@i].Chisodiencuoi" value="@hoaDonDienNuocs[i].Chisodiencuoi" />
+                                        </td>
+                                        <td>
+                                            <input readonly class="form-control" style="max-width:100px" type="text" name="hoaDonDienNuocs[@i].Chisonuocdau" value="@hoaDonDienNuocs[i].Chisonuocdau" />
+                                        </td>
+                                        <td>
+                                            <input @(hoaDonDienNuocs[i].TrangThai == 1?"readonly":"") class="form-control" style="max-width:100px" type="text" name="hoaDonDienNuocs[@i].Chisonuoccuoi" value="@hoaDonDienNuocs[i].Chisonuoccuoi" />
+                                        </td>
+                                        <td>@hoaDonDienNuocs[i].TongTien</td>
+                                        <td>
+                                            @hoaDonDienNuocs[i].ThangGhi.ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>@(hoaDonDienNuocs[i].NgayLap == null ? "" : hoaDonDienNuocs[i].NgayLap.Value.ToString("dd/MM/yyyy HH:mm"))</td>
+                                        <td>
+                                            @(hoaDonDienNuocs[i].TrangThai == -1 ? "Chưa cập nhật" : hoaDonDienNuocs[i].TrangThai == 0 ? "Chưa thanh toán" : "Đã thanh toán")
+                                        </td>
+                                        <td class="text-center">
+                                            @if (hoaDonDienNuocs[i].TrangThai != 1)
+                                            {
+                                                <a href="/HoaDon/ThanhToanHoaDon?mahoadon=@hoaDonDienNuocs[i].HoaDonDienNuocId&thangghi=@hoaDonDienNuocs[i].ThangGhi.ToString("yyyy/MM/dd")" class="btn btn-success btn-sm">Thanh toán hóa đơn</a>
+                                            }
+
+                                            <input type="hidden" name="hoaDonDienNuocs[@i].ThangGhi" value="@hoaDonDienNuocs[i].ThangGhi.ToString("yyyy/MM/dd")" />
+                                            <input type="hidden" name="hoaDonDienNuocs[@i].TrangThai" value="@hoaDonDienNuocs[i].TrangThai" />
+                                            <input type="hidden" name="hoaDonDienNuocs[@i].GiaDienId" value="@hoaDonDienNuocs[i].GiaDienId" />
+                                            <input type="hidden" name="hoaDonDienNuocs[@i].GiaNuocId" value="@hoaDonDienNuocs[i].GiaNuocId" />
+                                            <input type="hidden" name="hoaDonDienNuocs[@i].SoHieuPhong" value="@hoaDonDienNuocs[i].SoHieuPhong" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- END: CONTENT -->
+    </section>
+</div>
+<script>
+    function changeDateFilter() {
+        location.href = "/HoaDon/DanhSachHoaDonDienNuoc?date=" + $("#datefilter").val()
+    }
+</script>

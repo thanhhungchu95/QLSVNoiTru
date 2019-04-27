@@ -17,11 +17,9 @@ namespace QLSVNoiTru.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Phong()
         {
-            this.HoaDonDienNuocs = new HashSet<HoaDonDienNuoc>();
-            this.PhongGiaDiens = new HashSet<PhongGiaDien>();
-            this.PhongGiaNuocs = new HashSet<PhongGiaNuoc>();
             this.PhongThietBis = new HashSet<PhongThietBi>();
             this.SinhViens = new HashSet<SinhVien>();
+            this.HoaDonDienNuocs = new HashSet<HoaDonDienNuoc>();
         }
     
         public string SoHieuPhong { get; set; }
@@ -29,17 +27,13 @@ namespace QLSVNoiTru.Database
         public int TangId { get; set; }
         public int SucChuaToiDa { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HoaDonDienNuoc> HoaDonDienNuocs { get; set; }
         public virtual LoaiPhong LoaiPhong { get; set; }
         public virtual Tang Tang { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhongGiaDien> PhongGiaDiens { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhongGiaNuoc> PhongGiaNuocs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhongThietBi> PhongThietBis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SinhVien> SinhViens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HoaDonDienNuoc> HoaDonDienNuocs { get; set; }
     }
 }

@@ -28,7 +28,6 @@ namespace QLSVNoiTru.Database
         public virtual DbSet<Action> Actions { get; set; }
         public virtual DbSet<GiaDien> GiaDiens { get; set; }
         public virtual DbSet<GiaNuoc> GiaNuocs { get; set; }
-        public virtual DbSet<HoaDonDienNuoc> HoaDonDienNuocs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<KyLuat> KyLuats { get; set; }
         public virtual DbSet<KyTucXa> KyTucXas { get; set; }
@@ -37,8 +36,6 @@ namespace QLSVNoiTru.Database
         public virtual DbSet<Lop> Lops { get; set; }
         public virtual DbSet<MauBieu> MauBieux { get; set; }
         public virtual DbSet<Phong> Phongs { get; set; }
-        public virtual DbSet<PhongGiaDien> PhongGiaDiens { get; set; }
-        public virtual DbSet<PhongGiaNuoc> PhongGiaNuocs { get; set; }
         public virtual DbSet<PhongThietBi> PhongThietBis { get; set; }
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<QuyenAction> QuyenActions { get; set; }
@@ -53,5 +50,6 @@ namespace QLSVNoiTru.Database
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserQuyen> UserQuyens { get; set; }
         public virtual DbSet<PhiPhong> PhiPhongs { get; set; }
+        public virtual DbSet<HoaDonDienNuoc> HoaDonDienNuocs { get; set; }
     }
 }

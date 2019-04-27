@@ -17,7 +17,7 @@ namespace QLSVNoiTru.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GiaDien()
         {
-            this.PhongGiaDiens = new HashSet<PhongGiaDien>();
+            this.HoaDonDienNuocs = new HashSet<HoaDonDienNuoc>();
         }
     
         public int GiaDienId { get; set; }
@@ -25,6 +25,6 @@ namespace QLSVNoiTru.Database
         public System.DateTime NgayCapNhat { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhongGiaDien> PhongGiaDiens { get; set; }
+        public virtual ICollection<HoaDonDienNuoc> HoaDonDienNuocs { get; set; }
     }
 }
