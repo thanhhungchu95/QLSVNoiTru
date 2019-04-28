@@ -1,4 +1,7 @@
-﻿namespace QLSVNoiTru.Models
+﻿using System.Security.Cryptography;
+using System.Text;
+
+namespace QLSVNoiTru.Models
 {
     public enum TrangThaiO
     {
@@ -13,6 +16,11 @@
         PhongHoc = 3,
         CaNamNu = 4,
         KhonXacDinh = -1
+    }
+    public class QuyenDangNhap
+    {
+        public const int BPQuanLy = 1;
+        public const int BPDienNuoc = 0;
     }
     public class DataHelper
     {
@@ -47,6 +55,17 @@
                 default:
                     return "";
             }
+        }
+        public static string MD5(string _value)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] bytes = ASCIIEncoding.Default.GetBytes(_value);
+            byte[] encoded = md5.ComputeHash(bytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < encoded.Length; i++)
+                sb.Append(encoded[i].ToString("x2"));
+            return sb.ToString();
         }
     }
 }

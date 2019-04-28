@@ -1,4 +1,5 @@
 ﻿using QLSVNoiTru.Database;
+using QLSVNoiTru.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,21 @@ using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class TrangThietBiController : Controller
+    public class TrangThietBiController : BaseController
     {
         // GET: TrangThietBi
         public ActionResult DanhSachThietBi()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["thietBis"] = db.ThietBis.ToList();
             return View();
         }
         public JsonResult KiemTraTrung(string maThietBi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             bool result = db.ThietBis.Any(x => x.MaThietBi == maThietBi);
             return Json(new
@@ -29,6 +34,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult ThemMoi(ThietBi thietBi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             db.ThietBis.Add(thietBi);
             db.SaveChanges();
@@ -37,6 +44,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult Xoa(string maThietBi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ThietBi thietBi = db.ThietBis.FirstOrDefault(x => x.MaThietBi == maThietBi);
             if (thietBi != null)
@@ -49,6 +58,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult ChiTiet(string maThietBi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             ThietBi thietBi = db.ThietBis.FirstOrDefault(x => x.MaThietBi == maThietBi);
             return Json(new
@@ -62,6 +73,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhat(ThietBi thietBi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ThietBi thietBiCu = db.ThietBis.FirstOrDefault(x => x.MaThietBi == thietBi.MaThietBi);
             if (thietBiCu != null)

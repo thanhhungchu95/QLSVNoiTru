@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập hệ thống</title>
+    <link rel="shortcut icon" href="/Plugins/img/logo.png" />
+    <link href="/Plugins/scripts/css/css.css" rel="stylesheet" />
+    <link href="/Plugins/scripts/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Plugins/scripts/vendor/bootstrap-jasny/dist/extend/css/jasny-bootstrap.min.css" rel="stylesheet" />
+    <link href="/Plugins/scripts/css/ark.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="cover">
+    <div class="login-wrap">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Đăng nhập</h3>
+                @if (Session["user"] != null)
+                {
+                <h5 style="color:red">@Session["user"]</h5>
+                }
+            </div>
+            <div class="panel-body">
+                <form action="/Login/DangNhap" method="post">
+                    <div class="form-group">
+                        <label>Đăng nhập với quyền</label>
+                        <div>
+                            <select name="Quyen" class="form-control">
+                                <option value="1">BP quản lý</option>
+                                <option value="0">BP điện nước</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input required type="text" name="UserName" class="form-control" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <input required type="password" name="Password" class="form-control" placeholder="password">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

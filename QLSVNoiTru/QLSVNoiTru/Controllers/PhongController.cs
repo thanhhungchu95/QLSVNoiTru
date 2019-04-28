@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class PhongController : Controller
+    public class PhongController : BaseController
     {
         // GET: Phong
         public ActionResult DanhSachPhong()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["loaiphongs"] = db.LoaiPhongs.ToList();
             ViewData["phongs"] = db.Phongs.ToList();
@@ -19,6 +21,8 @@ namespace QLSVNoiTru.Controllers
         }
         public JsonResult KiemTraTrung(string soHieuPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             bool result = db.Phongs.Any(x => x.SoHieuPhong == soHieuPhong);
             return Json(new
@@ -30,6 +34,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult ThemMoi(Phong phong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             db.Phongs.Add(phong);
             db.SaveChanges();
@@ -38,6 +44,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult Xoa(string soHieuPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             Phong phong = db.Phongs.FirstOrDefault(x => x.SoHieuPhong == soHieuPhong);
             if (phong != null)
@@ -50,6 +58,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult ChiTiet(string soHieuPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             Phong phong = db.Phongs.FirstOrDefault(x => x.SoHieuPhong == soHieuPhong);
             return Json(new
@@ -63,6 +73,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhat(Phong phong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             Phong phongCu = db.Phongs.FirstOrDefault(x => x.SoHieuPhong == phong.SoHieuPhong);
             if (phongCu != null)
@@ -85,6 +97,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult ChiTietTrangThietBiPhong(string soHieuPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             Phong phong = db.Phongs.FirstOrDefault(x => x.SoHieuPhong == soHieuPhong);
             List<ThietBi> thietBis = db.ThietBis.ToList();
@@ -110,6 +124,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhatTrangThietBiPhong(string soHieuPhong, List<EThietBi> ethietBis)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             var transaction = db.Database.BeginTransaction();
             db.PhongThietBis.RemoveRange(db.PhongThietBis.Where(x => x.SoHieuPhong == soHieuPhong));
@@ -131,7 +147,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult DSSinhVienO(string soHieuPhong)
         {
-
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["sinhViens"] = db.SinhViens
                     .Where(x => x.TrangThaiO == (int)TrangThaiO.DangO && x.SoHieuPhong == soHieuPhong)

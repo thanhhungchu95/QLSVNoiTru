@@ -159,6 +159,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\GiaDienController.cs" />
     <Compile Include="Controllers\GiaNuocController.cs" />
     <Compile Include="Controllers\HoaDonController.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Controllers\KyLuatKhenThuongController.cs" />
     <Compile Include="Controllers\KyTucXaController.cs" />
     <Compile Include="Controllers\LoaiPhongController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LopController.cs" />
     <Compile Include="Controllers\NguoiDungController.cs" />
     <Compile Include="Controllers\PhongController.cs" />
@@ -234,9 +236,6 @@
     <Compile Include="Database\Quyen.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\QuyenAction.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Database\SinhVien.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -262,9 +261,6 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\User.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\UserQuyen.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -1507,12 +1503,16 @@
     <Content Include="Views\SinhVien\ChiTietSinhVien.cshtml" />
     <Content Include="Views\Phong\DSSinhVienO.cshtml" />
     <Content Include="Views\HoaDon\DanhSachHoaDonDienNuoc.cshtml" />
+    <Content Include="Views\QuanLy\SinhVienCheckout.cshtml" />
+    <Content Include="Views\NguoiDung\Thongtintaikhoan.cshtml" />
+    <Content Include="Views\Login\DangNhap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\files\" />
     <Folder Include="Files\images\" />
     <Folder Include="Plugins\ckfinder\bin\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\KyLuatKhenThuon\" />
   </ItemGroup>
   <ItemGroup>

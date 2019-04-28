@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class QuanLyController : Controller
+    public class QuanLyController : BaseController
     {
         // GET: QuanLy
         public ActionResult KhoiTaoPhongKTXMoi()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             List<Tang> tangs = db.Tangs.OrderByDescending(x => x.TangId).ToList();
             if (tangs == null)
@@ -60,6 +62,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult KhoiTaoPhongKTXMoi(List<ESinhVien> eSinhViens)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             db.SinhVienOLais.RemoveRange(db.SinhVienOLais);
             List<SinhVien> sinhViens = db.SinhViens.Where(x => x.TrangThaiO == (int)TrangThaiO.DangO).ToList();
@@ -82,6 +86,33 @@ namespace QLSVNoiTru.Controllers
             });
             db.SaveChanges();
             return RedirectToAction("KhoiTaoPhongKTXMoi");
+        }
+
+        public ActionResult SinhVienCheckout(string masinhvien)
+        {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
+            ViewBag.masinhvien = masinhvien;
+            var db = new DB();
+            SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien && x.TrangThaiO != (int)TrangThaiO.CheckOut);
+            ViewData["sinhVien"] = sinhVien;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(string masinhvien)
+        {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
+            ViewBag.masinhvien = masinhvien;
+            var db = new DB();
+            SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
+            if (sinhVien != null)
+            {
+                sinhVien.TrangThaiO = (int)TrangThaiO.CheckOut;
+                db.SaveChanges();
+            }
+            return RedirectToAction("SinhVienCheckout");
         }
     }
 }

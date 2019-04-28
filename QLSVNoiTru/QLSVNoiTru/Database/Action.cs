@@ -14,16 +14,7 @@ namespace QLSVNoiTru.Database
     
     public partial class Action
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Action()
-        {
-            this.QuyenActions = new HashSet<QuyenAction>();
-        }
-    
         public int ActionId { get; set; }
         public string ActionName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuyenAction> QuyenActions { get; set; }
     }
 }

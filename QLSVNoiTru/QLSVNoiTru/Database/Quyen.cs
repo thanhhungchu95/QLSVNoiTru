@@ -14,19 +14,7 @@ namespace QLSVNoiTru.Database
     
     public partial class Quyen
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Quyen()
-        {
-            this.QuyenActions = new HashSet<QuyenAction>();
-            this.UserQuyens = new HashSet<UserQuyen>();
-        }
-    
         public int QuyenId { get; set; }
         public string TenQuyen { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuyenAction> QuyenActions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserQuyen> UserQuyens { get; set; }
     }
 }

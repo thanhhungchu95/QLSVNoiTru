@@ -1,4 +1,5 @@
 ﻿using QLSVNoiTru.Database;
+using QLSVNoiTru.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class LopController : Controller
+    public class LopController : BaseController
     {
         // GET: Lop
         public ActionResult DanhSachLop()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["khoas"] = db.Khoas.ToList();
             ViewData["lops"] = db.Lops.ToList();
@@ -20,6 +23,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult KiemTraTrung(string maLop)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             bool result = db.Lops.Any(x => x.MaLop == maLop);
             return Json(new
@@ -31,6 +36,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult ThemMoi(Lop lop)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             db.Lops.Add(lop);
             db.SaveChanges();
@@ -39,6 +46,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult Xoa(string maLop)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             Lop lop = db.Lops.FirstOrDefault(x => x.MaLop == maLop);
             if (lop != null)
@@ -51,6 +60,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult ChiTiet(string maLop)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             Lop lop = db.Lops.FirstOrDefault(x => x.MaLop == maLop);
             return Json(new
@@ -63,6 +74,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhat(Lop lop)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             Lop lopCu = db.Lops.FirstOrDefault(x => x.MaLop == lop.MaLop);
             if (lopCu != null)

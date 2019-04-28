@@ -1,15 +1,18 @@
 ﻿using QLSVNoiTru.Database;
+using QLSVNoiTru.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class KyLuatKhenThuongController : Controller
+    public class KyLuatKhenThuongController : BaseController
     {
         // GET: KyLuatKhenThuong
         public ActionResult KhenThuong(string masinhvien = "")
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             ViewBag.masinhvien = masinhvien;
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
@@ -18,6 +21,8 @@ namespace QLSVNoiTru.Controllers
         }
         public ActionResult KyLuat(string masinhvien = "", int mucdo = 0)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             ViewBag.masinhvien = masinhvien;
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
@@ -56,6 +61,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhatKyLuat(string MaSinhVien, int MucDo, List<SinhVienKyLuat> sinhVienKyLuats)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             if (sinhVienKyLuats == null)
                 sinhVienKyLuats = new List<SinhVienKyLuat>();
             var db = new DB();
@@ -82,6 +89,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhatKhenThuong(string MaSinhVien, string KhenThuong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == MaSinhVien);
             if (sinhVien != null)

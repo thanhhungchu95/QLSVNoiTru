@@ -23,11 +23,11 @@ namespace QLSVNoiTru.Database
         public int GiaNuocId { get; set; }
         public int Chisonuocdau { get; set; }
         public int Chisonuoccuoi { get; set; }
+        public Nullable<double> TongTien { get; set; }
         public System.DateTime ThangGhi { get; set; }
         public Nullable<System.DateTime> NgayLap { get; set; }
         public string GhiChu { get; set; }
         public Nullable<int> TrangThai { get; set; }
-        public Nullable<double> TongTien { get; set; }
     
         public virtual GiaDien GiaDien { get; set; }
         public virtual GiaNuoc GiaNuoc { get; set; }

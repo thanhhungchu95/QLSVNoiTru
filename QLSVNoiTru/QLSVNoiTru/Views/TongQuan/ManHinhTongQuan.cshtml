@@ -1,6 +1,14 @@
-﻿
+﻿@using QLSVNoiTru.Database;
+@using QLSVNoiTru.Models;
 @{
     ViewBag.Title = "Tổng quan";
+    int thang = DateTime.Now.Month;
+    List<HoaDonDienNuoc> hoaDonDienNuocs = (List<HoaDonDienNuoc>)ViewData["hoaDonDienNuocs"];
+    List<SinhVien> sinhViens = (List<SinhVien>)ViewData["sinhViens"];
+    if(hoaDonDienNuocs is null)
+    {
+        hoaDonDienNuocs = new List<HoaDonDienNuoc>();
+    }
 }
 <script>
     $("#TONGQUAN").addClass("active");
@@ -24,15 +32,15 @@
                         <div class="panel-body">
                             <ul class="col-md-12 stats">
                                 <li class="stat col-xs-4">
-                                    <span><b class="value">20</b></span>
-                                    <em>Sinh viên mới / Tháng 8</em>
+                                    <span><b class="value">@ViewBag.svMoi</b></span>
+                                    <em>Sinh viên mới / Tháng @thang</em>
                                 </li>
                                 <li class="stat col-xs-4">
-                                    <span><b class="value">2,304</b></span>
+                                    <span><b class="value">@ViewBag.tongSV</b></span>
                                     <em>Số lượng sinh viên</em>
                                 </li>
                                 <li class="stat col-xs-4">
-                                    <span><b class="value">20</b></span>
+                                    <span><b class="value">@ViewBag.tongSoPhong</b></span>
                                     <em>Tổng số phòng</em>
                                 </li>
                             </ul>
@@ -42,16 +50,16 @@
                         <div class="panel-body">
                             <ul class="col-md-12 stats">
                                 <li class="stat col-xs-4">
-                                    <span><b class="value">150.000.000 đ</b></span>
-                                    <em>Tiền điện / Tháng 8</em>
+                                    <span><b class="value">@ViewBag.tienDien đ</b></span>
+                                    <em>Tiền điện / Tháng @thang</em>
                                 </li>
                                 <li class="stat col-xs-4">
-                                    <span><b class="value">70.000.000 đ</b></span>
-                                    <em>Tiền nước / Tháng 8</em>
+                                    <span><b class="value">@ViewBag.tienNuoc đ</b></span>
+                                    <em>Tiền nước / Tháng @thang</em>
                                 </li>
                                 <li class="stat col-xs-4">
-                                    <span><b class="value">220.000.000 đ</b></span>
-                                    <em>Tổng / Tháng 8</em>
+                                    <span><b class="value">@((float)ViewBag.tienDien + (float)ViewBag.tienNuoc) đ</b></span>
+                                    <em>Tổng / Tháng @thang</em>
                                 </li>
                             </ul>
                         </div>
@@ -75,14 +83,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in new List<int>() { 2, 3, 4 })
+                                    @for (int i = 0; i < hoaDonDienNuocs.Count; i++)
                                     {
                                         <tr>
-                                            <td>@item</td>
-                                            <td>#200@(item)</td>
-                                            <td>@(11 % item)</td>
-                                            <td>176.287</td>
-                                            <td>176.287</td>
+                                            <td>@(i + 1)</td>
+                                            <td>@hoaDonDienNuocs[i].SoHieuPhong</td>
+                                            <td>@(sinhViens.Where(x => x.SoHieuPhong == hoaDonDienNuocs[i].SoHieuPhong).Count())</td>
+                                            <td>@((hoaDonDienNuocs[i].Chisodiencuoi - hoaDonDienNuocs[i].Chisodiendau) * hoaDonDienNuocs[i].GiaDien.Dongia)</td>
+                                            <td>@((hoaDonDienNuocs[i].Chisonuoccuoi - hoaDonDienNuocs[i].Chisonuocdau) * hoaDonDienNuocs[i].GiaNuoc.Dongia)</td>
                                         </tr>
                                     }
                                 </tbody>

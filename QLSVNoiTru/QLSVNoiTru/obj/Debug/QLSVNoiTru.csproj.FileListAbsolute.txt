@@ -183,8 +183,8 @@ D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\bin\Microsoft
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\bin\Microsoft.AI.WindowsServer.xml
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\bin\Microsoft.AI.Web.xml
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\obj\Debug\QLSVNoiTru.csprojAssemblyReference.cache
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\obj\Debug\QLSVNoiTru.csproj.CoreCompileInputs.cache
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\obj\Debug\QLSVNoiTru.csproj.CopyComplete
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\obj\Debug\QLSVNoiTru.dll
 D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\obj\Debug\QLSVNoiTru.pdb
+D:\Đồ án\QuanLySinhVienNoiTru\QLSVNoiTru\QLSVNoiTru\QLSVNoiTru\obj\Debug\QLSVNoiTru.csprojAssemblyReference.cache

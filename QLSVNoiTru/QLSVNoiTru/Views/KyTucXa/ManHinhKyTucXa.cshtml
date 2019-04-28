@@ -1,5 +1,6 @@
-﻿
+﻿@using QLSVNoiTru.Database;
 @{
+    KyTucXa kyTucXa = (KyTucXa)ViewData["kyTucXa"];
     ViewBag.Title = "Thông tin ký túc xá";
 }
 <script>
@@ -18,36 +19,38 @@
         </div>
         <!-- CONTENT -->
         <div class="main-content">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label style="display: block;text-align: center;">Hình ảnh <span class="required-field">(*)</span></label>
-                        <img id="img-logo" src="/Files/img-default.gif">
-                        <input required id="Logo" style="display: none; width: 0px;" name="Logo" class="upload">
+            <form action="/KyTucXa/CapNhat" method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label style="display: block;text-align: center;">Hình ảnh <span class="required-field">(*)</span></label>
+                            <img id="img-logo" src="@kyTucXa.HinhAnh">
+                            <input value="@kyTucXa.HinhAnh" required id="Logo" style="display: none; width: 0px;" name="HinhAnh" class="upload">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Tên ký túc xá <span class="required-field">(*)</span></label>
+                            <input required name="TenKyTucXa" class="form-control" type="text" value="@kyTucXa.TenKyTucXa">
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ <span class="required-field">(*)</span></label>
+                            <input required name="DiaChi" class="form-control" type="text" value="@kyTucXa.DiaChi">
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại <span class="required-field">(*)</span></label>
+                            <input required name="SoDienThoai" class="form-control" type="text" value="@kyTucXa.SoDienThoai">
+                        </div>
+                        <div class="form-group">
+                            <label>Email <span class="required-field">(*)</span></label>
+                            <input required name="Email" class="form-control" type="text" value="@kyTucXa.Email">
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Tên ký túc xá <span class="required-field">(*)</span></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Địa chỉ <span class="required-field">(*)</span></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Số điện thoại <span class="required-field">(*)</span></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Email <span class="required-field">(*)</span></label>
-                        <input class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="col-md-12 text-center">
-                    <button class="btn btn-primary">Cập nhật</button>
-                </div>
-            </div>
+            </form>
         </div>
         <!-- END: CONTENT -->
     </section>

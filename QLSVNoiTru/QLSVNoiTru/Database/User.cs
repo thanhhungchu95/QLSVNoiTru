@@ -14,19 +14,11 @@ namespace QLSVNoiTru.Database
     
     public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
-        {
-            this.UserQuyens = new HashSet<UserQuyen>();
-        }
-    
         public string UserName { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public bool Status { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserQuyen> UserQuyens { get; set; }
+        public int Quyen { get; set; }
     }
 }

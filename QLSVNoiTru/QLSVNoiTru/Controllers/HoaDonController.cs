@@ -1,4 +1,5 @@
 ﻿using QLSVNoiTru.Database;
+using QLSVNoiTru.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,13 @@ using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class HoaDonController : Controller
+    public class HoaDonController : BaseController
     {
         // GET: HoaDon
         public ActionResult DanhSachHoaDonDienNuoc(DateTime? date = null)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             List<HoaDonDienNuoc> hoaDonDienNuocs = new List<HoaDonDienNuoc>();
             var db = new DB();
             if (date == null) date = DateTime.Now.Date;
@@ -60,6 +63,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhatHoaDon(List<HoaDonDienNuoc> hoaDonDienNuocs, string thangghi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             DateTime dateTimeNow = DateTime.Now;
             hoaDonDienNuocs.ForEach(x =>
@@ -102,6 +107,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult ThanhToanHoaDon(int mahoadon, DateTime thangghi)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             HoaDonDienNuoc hoaDonDienNuoc = db.HoaDonDienNuocs.FirstOrDefault(x => x.HoaDonDienNuocId == mahoadon);
             if (hoaDonDienNuoc != null)

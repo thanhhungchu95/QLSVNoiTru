@@ -1,14 +1,17 @@
 ﻿using QLSVNoiTru.Database;
+using QLSVNoiTru.Models;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class LoaiPhongController : Controller
+    public class LoaiPhongController : BaseController
     {
         // GET: Admin/LoaiPhong
         public ActionResult DanhSachLoaiPhong()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["loaiphongs"] = db.LoaiPhongs.ToList();
             return View();
@@ -16,6 +19,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult KiemTraTrung(string maLoaiPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             bool result = db.LoaiPhongs.Any(x => x.MaLoaiPhong == maLoaiPhong);
             return Json(new
@@ -27,6 +32,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult ThemMoi(LoaiPhong loaiPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             db.LoaiPhongs.Add(loaiPhong);
             db.SaveChanges();
@@ -35,6 +42,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult Xoa(string maLoaiPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             LoaiPhong loaiPhong = db.LoaiPhongs.FirstOrDefault(x => x.MaLoaiPhong == maLoaiPhong);
             if (loaiPhong != null)
@@ -48,6 +57,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult ChiTiet(string maLoaiPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             LoaiPhong loaiPhong = db.LoaiPhongs.FirstOrDefault(x => x.MaLoaiPhong == maLoaiPhong);
             return Json(new
@@ -60,6 +71,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhat(LoaiPhong loaiPhong)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             LoaiPhong loaiPhongCu = db.LoaiPhongs.FirstOrDefault(x => x.MaLoaiPhong == loaiPhong.MaLoaiPhong);
             if (loaiPhong != null)

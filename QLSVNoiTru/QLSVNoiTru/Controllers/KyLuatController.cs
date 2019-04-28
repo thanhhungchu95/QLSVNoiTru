@@ -1,14 +1,17 @@
 ﻿using QLSVNoiTru.Database;
+using QLSVNoiTru.Models;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class KyLuatController : Controller
+    public class KyLuatController : BaseController
     {
         // GET: KyLuat
         public ActionResult DanhSachKyLuat()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["kyluats"] = db.KyLuats.ToList();
             return View();
@@ -16,6 +19,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult ThemMoi(KyLuat kyLuat)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             db.KyLuats.Add(kyLuat);
             db.SaveChanges();
@@ -24,6 +29,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult Xoa(int maKyLuat)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             KyLuat kyLuat = db.KyLuats.FirstOrDefault(x => x.MaKyLuat == maKyLuat);
             if (kyLuat != null)
@@ -37,6 +44,8 @@ namespace QLSVNoiTru.Controllers
 
         public JsonResult ChiTiet(int maKyLuat)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             KyLuat kyLuat = db.KyLuats.FirstOrDefault(x => x.MaKyLuat == maKyLuat);
             return Json(new
@@ -49,6 +58,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult CapNhat(KyLuat kyLuat)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             KyLuat KyLuatCu = db.KyLuats.FirstOrDefault(x => x.MaKyLuat == kyLuat.MaKyLuat);
             if (KyLuatCu != null)

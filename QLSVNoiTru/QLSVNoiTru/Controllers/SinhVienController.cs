@@ -8,11 +8,13 @@ using System.Web.Mvc;
 
 namespace QLSVNoiTru.Controllers
 {
-    public class SinhVienController : Controller
+    public class SinhVienController : BaseController
     {
         // GET: SinhVien
         public ActionResult DanhSachSinhVien()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["sinhViens"] = db.SinhViens.OrderByDescending(x => x.NgayNhanPhong).ToList();
             return View();
@@ -20,6 +22,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult DangKyNoiTru(string gioitinh = "Nam")
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["lops"] = db.Lops.ToList();
             List<Tang> tangs = db.Tangs.OrderByDescending(x => x.TangId).ToList();
@@ -59,6 +63,8 @@ namespace QLSVNoiTru.Controllers
         }
         public JsonResult KiemTraTrung(string maSinhVien)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Json("");
             var db = new DB();
             bool result = db.SinhViens.Any(x => x.MaSinhVien == maSinhVien);
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == maSinhVien);
@@ -89,6 +95,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult DangKyNoiTru(SinhVien sinhVien, int dangkychosinhvien = 1)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             if (dangkychosinhvien == 1)
             {
@@ -121,8 +129,10 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult ChuyenPhong(string maSinhVien = "")
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
-            List<SinhVien> sinhViens = db.SinhViens.Where(x => string.IsNullOrEmpty(maSinhVien) || x.MaSinhVien.Contains(maSinhVien)).OrderByDescending(x => x.NgayNhanPhong).ToList();
+            List<SinhVien> sinhViens = db.SinhViens.Where(x => (string.IsNullOrEmpty(maSinhVien) || x.MaSinhVien.Contains(maSinhVien)) && x.TrangThaiO != (int)TrangThaiO.CheckOut).OrderByDescending(x => x.NgayNhanPhong).ToList();
             List<Phong> phongs = db.Phongs.ToList();
             List<EPhong> ePhongs = new List<EPhong>();
             phongs.ForEach(x =>
@@ -149,6 +159,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult ChuyenPhong(string MaSinhVien, string SoHieuPhongCu, string SoHieuPhongMoi, string GhiChu)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == MaSinhVien);
             if (sinhVien != null)
@@ -169,6 +181,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult DangKyNoiTruNhanh()
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["sinhViens"] = db.SinhViens.Where(x => x.TrangThaiO == (int)TrangThaiO.ChoNhanPhongMoi).OrderByDescending(x => x.NgayNhanPhong).ToList();
             return View();
@@ -176,6 +190,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult ChiTietDangKyNoiTruNhanh(string masinhvien)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
             List<Tang> tangs = db.Tangs.OrderByDescending(x => x.TangId).ToList();
@@ -217,6 +233,8 @@ namespace QLSVNoiTru.Controllers
         [HttpPost]
         public ActionResult DangKyNoiTruNhanh(SinhVien sinhVien)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sv = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == sinhVien.MaSinhVien);
             if (sv != null)
@@ -230,6 +248,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult DangKyThem(string gioitinh = "Nam")
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             ViewData["lops"] = db.Lops.ToList();
             List<Tang> tangs = db.Tangs.OrderByDescending(x => x.TangId).ToList();
@@ -270,6 +290,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult ChiTietSinhVien(string masinhvien)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
             ViewData["sinhVien"] = sinhVien;
@@ -278,6 +300,8 @@ namespace QLSVNoiTru.Controllers
         }
         public ActionResult Xoa(string masinhvien)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sinhVien = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == masinhvien);
             if (sinhVien != null)
@@ -293,6 +317,8 @@ namespace QLSVNoiTru.Controllers
 
         public ActionResult CapNhatThongTin(SinhVien sinhVien)
         {
+            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+                return Redirect("/Login/DangNhap");
             var db = new DB();
             SinhVien sinhVienOld = db.SinhViens.FirstOrDefault(x => x.MaSinhVien == sinhVien.MaSinhVien);
             if (sinhVienOld != null)
