@@ -12,7 +12,7 @@ namespace QLSVNoiTru.Controllers
         // GET: HoaDon
         public ActionResult DanhSachHoaDonDienNuoc(DateTime? date = null)
         {
-            if (!CheckLogin(QuyenDangNhap.BPQuanLy))
+            if (!CheckLogin(QuyenDangNhap.BPDienNuoc))
                 return Redirect("/Login/DangNhap");
             List<HoaDonDienNuoc> hoaDonDienNuocs = new List<HoaDonDienNuoc>();
             var db = new DB();
