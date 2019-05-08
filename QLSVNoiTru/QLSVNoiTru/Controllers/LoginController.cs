@@ -28,7 +28,7 @@ namespace QLSVNoiTru.Controllers
             }
             else
             {
-                Session["user"] = "Tài khoản hoặc mật khẩu không đúng";
+                Session["error"] = "Tài khoản hoặc mật khẩu không đúng";
             }
             return RedirectToAction("DangNhap");
         }

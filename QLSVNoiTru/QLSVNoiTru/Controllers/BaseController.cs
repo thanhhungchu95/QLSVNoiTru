@@ -14,5 +14,11 @@ namespace QLSVNoiTru.Controllers
                 return false;
             return true;
         }
+        public bool CheckLogin()
+        {
+            if (Session["user"] is null)
+                return false;
+            return true;
+        }
     }
 }

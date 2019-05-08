@@ -20,7 +20,7 @@ namespace QLSVNoiTru.Models
     public class QuyenDangNhap
     {
         public const int BPQuanLy = 1;
-        public const int BPDienNuoc = 0;
+        public const int BPDienNuoc = 2;
     }
     public class DataHelper
     {

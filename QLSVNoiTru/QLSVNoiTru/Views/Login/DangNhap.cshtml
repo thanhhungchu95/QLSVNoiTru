@@ -19,9 +19,9 @@
         <div class="panel">
             <div class="panel-heading">
                 <h3 class="panel-title">Đăng nhập</h3>
-                @if (Session["user"] != null)
+                @if (Session["error"] != null)
                 {
-                <h5 style="color:red">@Session["user"]</h5>
+                <h5 style="color:red">@Session["error"]</h5>
                 }
             </div>
             <div class="panel-body">
@@ -31,7 +31,7 @@
                         <div>
                             <select name="Quyen" class="form-control">
                                 <option value="1">BP quản lý</option>
-                                <option value="0">BP điện nước</option>
+                                <option value="2">BP điện nước</option>
                             </select>
                         </div>
                     </div>
